@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>xyz.silencelurker.project.shop</groupId>
 	<artifactId>production-api</artifactId>
-	<version>0.0.5</version>
+	<version>0.0.7</version>
 	<name>production-api</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>

@@ -31,12 +31,11 @@ public class Production implements Serializable {
     private String introduce;
     @Column(name = "system_Type")
     private SystemType system;
-    private Integer sales;
+    private volatile Integer sales;
     private Float score;
     private List<MemoryAndPrice> memoryAndPrice;
     private List<Color> color;
     private List<String> topImage;
     private List<String> infoImage;
     private Long time;
-
 }

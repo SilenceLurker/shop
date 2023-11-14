@@ -1,5 +1,6 @@
 package xyz.silencelurker.project.shop.productionservice.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 
 import jakarta.annotation.Resource;
 import xyz.silencelurker.project.shop.productionapi.entity.Production;
+import xyz.silencelurker.project.shop.productionapi.service.IBrandService;
 import xyz.silencelurker.project.shop.productionapi.service.IProductionService;
 import xyz.silencelurker.project.shop.productionservice.repository.IProductionRepository;
 
@@ -17,8 +19,11 @@ import xyz.silencelurker.project.shop.productionservice.repository.IProductionRe
  */
 @DubboService(version = "0.0.1-SNAPSHOT")
 public class IProductionServiceImpl implements IProductionService {
+
     @Resource
     private IProductionRepository productionRepository;
+    @Resource
+    private IBrandService brandService;
 
     @Override
     public Production selectProductionById(Integer id) {
@@ -77,6 +82,44 @@ public class IProductionServiceImpl implements IProductionService {
 
         return pro;
 
+    }
+
+    @Override
+    public List<Production> getProduceList(String brand) {
+
+        var list = brandService.getAllBrandByName(brand);
+
+        List<Integer> idList = new ArrayList<>();
+
+        for (var item : list) {
+            idList.add(item.getBrandId());
+        }
+
+        return productionRepository.findAllByBrandInOrderBySales(idList);
+    }
+
+    @Override
+    public Page<Production> getProduceList(String brand, int nubmer) {
+
+        var pageable = Pageable.ofSize(nubmer);
+
+        var list = brandService.getAllBrandByName(brand);
+
+        List<Integer> idList = new ArrayList<>();
+
+        for (var item : list) {
+            idList.add(item.getBrandId());
+        }
+
+        return productionRepository.findAllByBrandInOrderBySales(idList, pageable);
+    }
+
+    @Override
+    public List<Production> searchAllFormateProduction(String name, String brand, String ram, String system,
+            String type, String order, int lowPrice, int highPrice) {
+        // TODO Auto-generated method stub
+        // TODO: Are You Kidding Me?
+        throw new UnsupportedOperationException("Unimplemented method 'searchAllFormateProduction'");
     }
 
 }

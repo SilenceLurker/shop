@@ -71,4 +71,41 @@ public interface IProductionService {
      */
     Production deleteProductionById(Integer id);
 
+    /**
+     * 获取列表
+     * 
+     * @param brand
+     * @param nubmer
+     * @return
+     */
+    Page<Production> getProduceList(String brand, int nubmer);
+
+    /**
+     * 获取列表
+     * 
+     * @param brand
+     * @return
+     */
+    List<Production> getProduceList(String brand);
+
+    /**
+     * 按条件搜索
+     * 
+     * <p>
+     * 谁TM会TM用字符串传这一大串的搜索条件啊捏妈的！
+     * </p>
+     * 
+     * @param name
+     * @param brand
+     * @param ram
+     * @param system
+     * @param type
+     * @param order
+     * @param lowPrice
+     * @param highPrice
+     * @return
+     */
+    List<Production> searchAllFormateProduction(String name, String brand, String ram, String system, String type,
+            String order, int lowPrice, int highPrice);
+
 }
