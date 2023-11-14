@@ -1,0 +1,3 @@
+# shop项目Production类API
+
+通过Lombok，JPA，MySQL初始化对象并设定预期方法，需在production-service包中实现service包下的所有接口并添加@Service或@DubboService进行IOC容器注入
