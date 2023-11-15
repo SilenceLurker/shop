@@ -10,18 +10,18 @@ import org.springframework.data.domain.Pageable;
 
 import jakarta.annotation.Resource;
 import xyz.silencelurker.project.shop.productionapi.entity.Production;
+import xyz.silencelurker.project.shop.productionapi.repository.ProductionRepository;
 import xyz.silencelurker.project.shop.productionapi.service.IBrandService;
 import xyz.silencelurker.project.shop.productionapi.service.IProductionService;
-import xyz.silencelurker.project.shop.productionservice.repository.IProductionRepository;
 
 /**
  * @author Silence_Lurker
  */
-@DubboService(version = "0.0.1-SNAPSHOT")
+@DubboService()
 public class IProductionServiceImpl implements IProductionService {
 
     @Resource
-    private IProductionRepository productionRepository;
+    private ProductionRepository productionRepository;
     @Resource
     private IBrandService brandService;
 
@@ -56,7 +56,8 @@ public class IProductionServiceImpl implements IProductionService {
 
         // productionRepository.f
 
-        return productionRepository.findByIdIn(ids, page);
+        // return productionRepository.findByIdIn(ids, page);
+        return productionRepository.findAllByIdIn(ids, page);
 
     }
 
@@ -119,7 +120,9 @@ public class IProductionServiceImpl implements IProductionService {
             String type, String order, int lowPrice, int highPrice) {
         // TODO Auto-generated method stub
         // TODO: Are You Kidding Me?
-        throw new UnsupportedOperationException("Unimplemented method 'searchAllFormateProduction'");
+        return null;
+        // throw new UnsupportedOperationException("Unimplemented method
+        // 'searchAllFormateProduction'");
     }
 
 }

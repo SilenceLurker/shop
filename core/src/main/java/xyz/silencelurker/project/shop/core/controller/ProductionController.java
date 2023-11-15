@@ -37,10 +37,12 @@ public class ProductionController {
     }
 
     @GetMapping("/getProduceList")
-    public ResponseEntity<?> getProduceList(@RequestParam String brand, @RequestParam(required = false) int number) {
-        var info = productionService.getProduceList(brand, number);
-
-        return ResponseEntity.ok(info);
+    public ResponseEntity<?> getProduceList(@RequestParam String brand,
+            @RequestParam(required = false) Integer number) {
+        if (number == null) {
+            return ResponseEntity.ok(productionService.getProduceList(brand));
+        }
+        return ResponseEntity.ok(productionService.getProduceList(brand, number));
     }
 
 }

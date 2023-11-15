@@ -14,10 +14,10 @@ import xyz.silencelurker.project.shop.productionapi.service.IProductionService;
 @EnableDubbo
 @Configuration
 public class ProductionConfig {
-    @DubboReference(version = "0.0.1-SNAPSHOT")
+    @DubboReference()
     IProductionService productionService;
 
-    @DubboReference(version = "0.0.1-SNAPSHOT")
+    @DubboReference()
     IBrandService brandService;
 
     @Bean

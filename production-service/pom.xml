@@ -76,7 +76,7 @@
 		<dependency>
 			<groupId>xyz.silencelurker.project.shop</groupId>
 			<artifactId>production-api</artifactId>
-			<version>0.0.7</version>
+			<version>0.1.1</version>
 		</dependency>
 
 		<!-- Zookeeper需要的依赖 -->

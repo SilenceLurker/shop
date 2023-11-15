@@ -14,7 +14,7 @@ import xyz.silencelurker.project.shop.productionapi.service.IBrandService;
 /**
  * @author Silence_Lurker
  */
-@DubboService(version = "0.0.1-SNAPSHOT")
+@DubboService()
 public class IBrandServiceImpl implements IBrandService {
 
     @Resource

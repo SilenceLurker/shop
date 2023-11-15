@@ -30,4 +30,21 @@ public interface ProductionRepository extends JpaRepository<Production, Integer>
      * @return
      */
     List<Production> findAllByBrandInOrderBySales(Iterable<Integer> brand);
+
+    /**
+     * find by id
+     * 
+     * @param ids
+     * @param pageable
+     * @return
+     */
+    Page<Production> findAllByIdIn(Iterable<Integer> ids, Pageable pageable);
+
+    /**
+     * find by id
+     * 
+     * @param ids
+     * @return
+     */
+    List<Production> findAllByIdIn(Iterable<Integer> ids);
 }
