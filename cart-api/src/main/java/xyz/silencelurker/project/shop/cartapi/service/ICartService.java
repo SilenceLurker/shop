@@ -26,4 +26,34 @@ public interface ICartService {
      * @return
      */
     List<Cart> getCartByIds(List<Integer> ids);
+
+    /**
+     * 更新Cart
+     * 
+     * @param newCart
+     * @return
+     */
+    Cart updateCart(Cart newCart);
+
+    /**
+     * 更新Cart某商品数量
+     * 
+     * @param userId
+     * @param id
+     * @param number
+     * @return
+     */
+    Cart updateCart(Integer userId, Integer id, Integer number);
+
+    /**
+     * 添加新商品至购物车
+     * 
+     * @param userId
+     * @param id
+     * @param number
+     * @param colorId
+     * @param memoryId
+     * @return
+     */
+    Cart addNewProduction(Integer userId, Integer id, Integer number, Integer colorId, Integer memoryId);
 }

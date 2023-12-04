@@ -23,6 +23,7 @@ public class GenerateCode {
     private static Random random = new Random();
 
     /**
+     * 
      * 使用系统默认字符源生成验证码
      *
      * @param verifySize 验证码长度

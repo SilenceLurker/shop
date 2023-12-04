@@ -118,7 +118,6 @@ public class IProductionServiceImpl implements IProductionService {
     @Override
     public List<Production> searchAllFormateProduction(String name, String brand, String ram, String system,
             String type, String order, int lowPrice, int highPrice) {
-        // TODO Auto-generated method stub
         // TODO: Are You Kidding Me?
         return null;
         // throw new UnsupportedOperationException("Unimplemented method
