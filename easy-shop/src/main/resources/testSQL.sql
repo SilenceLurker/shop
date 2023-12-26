@@ -1,0 +1,1 @@
+alter table production add constraint FKtaecnrftilunxnvpcof5g2n06 foreign key (color_id) references color (id)

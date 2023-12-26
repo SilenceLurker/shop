@@ -1,0 +1,112 @@
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Java",
+            "type": "java",
+            "request": "launch",
+            "stopOnEntry": true,
+            "jdkPath": "${env:JAVA_HOME}/bin",
+            "cwd": "${fileDirname}",
+            "startupClass": "${fileBasenameNoExtension}",
+            "classpath": [
+                ".",
+                "${fileDirname}"
+            ]
+        },
+        {
+            "name": "Java Console App",
+            "type": "java",
+            "request": "launch",
+            "stopOnEntry": true,
+            "jdkPath": "${env:JAVA_HOME}/bin",
+            "cwd": "${fileDirname}",
+            "startupClass": "${fileBasenameNoExtension}",
+            "classpath": [
+                ".",
+                "${fileDirname}"
+            ],
+            "externalConsole": true
+        },
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "CartServiceApplication",
+            "request": "launch",
+            "mainClass": "xyz.silencelurker.project.shop.cartservice.CartServiceApplication",
+            "projectName": "cart-service"
+        },
+        {
+            "type": "java",
+            "name": "CompanyApiApplication",
+            "request": "launch",
+            "mainClass": "xyz.silencelurker.project.shop.companyapi.CompanyApiApplication",
+            "projectName": "company-api"
+        },
+        {
+            "type": "java",
+            "name": "CoreApplication",
+            "request": "launch",
+            "mainClass": "xyz.silencelurker.project.shop.core.CoreApplication",
+            "projectName": "core"
+        },
+        {
+            "type": "java",
+            "name": "EasyShopApplication",
+            "request": "launch",
+            "mainClass": "xyz.silencelurker.project.shop.easyshop.EasyShopApplication",
+            "projectName": "easy-shop",
+            "vmArgs": "--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED"
+        },
+        {
+            "type": "java",
+            "name": "ProductionApiApplication",
+            "request": "launch",
+            "mainClass": "xyz.silencelurker.project.shop.productionapi.ProductionApiApplication",
+            "projectName": "production-api"
+        },
+        {
+            "type": "java",
+            "name": "ProductionServiceApplication",
+            "request": "launch",
+            "mainClass": "xyz.silencelurker.project.shop.productionservice.ProductionServiceApplication",
+            "projectName": "production-service"
+        },
+        {
+            "type": "java",
+            "name": "SendApiApplication",
+            "request": "launch",
+            "mainClass": "xyz.silencelurker.project.shop.sendapi.SendApiApplication",
+            "projectName": "send-api"
+        },
+        {
+            "type": "java",
+            "name": "ToolKitApplication",
+            "request": "launch",
+            "mainClass": "xyz.silencelurker.project.shop.toolkit.ToolKitApplication",
+            "projectName": "tool-kit"
+        },
+        {
+            "type": "java",
+            "name": "GenerateCode",
+            "request": "launch",
+            "mainClass": "xyz.silencelurker.project.shop.toolkit.tool.GenerateCode",
+            "projectName": "tool-kit"
+        },
+        {
+            "type": "java",
+            "name": "UserApiApplication",
+            "request": "launch",
+            "mainClass": "xyz.silencelurker.project.shop.userapi.UserApiApplication",
+            "projectName": "user-api"
+        }
+    ]
+}
