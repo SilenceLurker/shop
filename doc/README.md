@@ -328,7 +328,7 @@ RequestParam：
 
 | 属性名 | 属性类型 | 描述 | 是否必须 |
 | -- | -- | -- | -- |
-| accountId | String | 账户Id | T |
+| accountId | Integer | 账户Id | T |
 
 会发送一个验证码至用户邮箱，需要用户确认后才可进行更改
 
@@ -422,7 +422,7 @@ RequestBody：
 
 | 属性名 | 属性类型 | 描述 | 是否必须 |
 | -- | -- | -- | -- |
-| accountId | String | 用户ID | T |
+| accountId | Integer | 用户ID | T |
 
 这玩意还得验证登录用户和查询用户ID是否相同，否则不返回
 
