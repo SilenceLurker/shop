@@ -150,12 +150,23 @@ MemoryAndDisk
 | -- | -- | -- | -- |
 | id | Short | 内存和硬盘大小信息id | T |
 | name | String | 展示用名称（应自动生成） | T |
-| memory | Short | 内存大小，基本扩展大小为2（预操作：(+1)*2，单位：GB），理论范围：2~64GB | T |
-| disk | Short | 磁盘大小，基本扩展大小为16（预操作：(+1)*16，单位：GB），16GB~16TB | T |
+| memory | Short | 内存大小，基本扩展大小为2（预操作：(+1)*2，单位：GB），理论范围：2~32GB | T |
+| disk | Short | 磁盘大小，基本扩展大小为16（预操作：(+1)*16，单位：GB），16GB~8TB | T |
 
 0b0000 00|00 0000 0000
+0b1111 11|11 1111 1111表示其他。
 
 内存|硬盘
+
+#### 二.2.1 推荐对象 Recommendation（Supporter Only）
+
+| 属性名 | 属性类型 | 描述 | 是否必须 |
+| -- | -- | -- | -- |
+| id | Integer | id | T |
+| supporterId | Integer | 供应商ID | T |
+| productionId | Long | 产品对应id | T |
+| logo | File/URL(String) | 对应展示文件 | T |
+| enable | Boolean | 是否启用 | T |
 
 ### 二.3 购物车 Cart
 
@@ -492,7 +503,32 @@ POST /enable
 
 注：文件过大应单独上传后通过认证码读取文件
 
-#### 三.3.2 更新资料
+#### 三.3.2 供应商账户登录
+
+~~按理来说，供应商账户登录需要用邮箱或其他方式来认证，但是我觉得作为一个实训项目来说比较麻烦而且应该没人乐意去写，顺便我想偷个懒。就是这样。~~
+
+GET /supporterCheck
+
+Cookies:
+
+| 属性名 | 属性类型 | 描述 | 是否必须 |
+| -- | -- | -- | -- |
+| token | String | 账户token | T |
+
+验证成功：200
+
+```json
+```
+
+验证失败：502
+
+```json
+{
+    "data":"Your Account is not enable supporter access!"
+}
+```
+
+#### 三.3.3 更新资料
 
 POST /update
 
@@ -505,7 +541,7 @@ POST /update
 | unitName | String | 单位名称 | T(nullable) |
 | unitAddress | String | 单位地址 | T(nullable) |
 
-#### 三.3.3 设置推荐
+#### 三.3.4 设置推荐
 
 POST /setRecommendations
 
@@ -513,19 +549,9 @@ POST /setRecommendations
 | -- | -- | -- | -- |
 | id | Integer | id | T |
 | productionIds | List<Long> | 产品对应id | T |
-| logo | File/URL(String) | 对应展示文件 | T |
+| logo | File/URL(String) | 对应展示文件 | T(Nullable) |
 
-Recommendation
-
-| 属性名 | 属性类型 | 描述 | 是否必须 |
-| -- | -- | -- | -- |
-| id | Integer | id | T |
-| supporterId | Integer | 供应商ID | T |
-| productionId | Long | 产品对应id | T |
-| logo | File/URL(String) | 对应展示文件 | T |
-| enable | Boolean | 是否启用 | T |
-
-#### 三.3.4 禁用/启用推荐
+#### 三.3.5 禁用/启用推荐
 
 POST /changeRecommendationStatus
 
@@ -533,3 +559,129 @@ POST /changeRecommendationStatus
 | -- | -- | -- | -- |
 | id | Integer | id | T |
 | enable | Boolean | 是否启用 | T |
+
+#### 三.3.6 新建商品
+
+需要先新建对应的一些参数信息如颜色
+
+Body:
+
+| 属性名 | 属性类型 | 描述 | 是否必须 |
+| -- | -- | -- | -- |
+| 宿便ID | int | 该供应商提供的产品的个数（对应id，提供接口进行查询） | T |
+| name | String | 产品名 | T |
+| brand | int | 供应商对应品牌/公司id | T |
+| color | int | 构建的对应颜色的id | T |
+| system | int | 系统类型对应id | T |
+| type | int | 提供类型的对应id | T |
+| enable | boolean | 是否启用 | T |
+| memoryAndDisk | int | 内存及存储大小对应id | T |
+| price | double | 价格 | T |
+
+##### 三.3.6.1 为产品创建颜色信息
+
+POST /createColorInfo
+
+Params:
+
+| 属性名 | 属性类型 | 描述 | 是否必须 |
+| -- | -- | -- | -- |
+| name | String | 颜色名称 | T |
+| image | String\|File | 展示图片,若没有可为空（但是得有对应的空的图片处理方案） | T(Nullable) |
+
+Cookies:
+
+| 属性名 | 属性类型 | 描述 | 是否必须 |
+| -- | -- | -- | -- |
+| token | String | 对应Supporter登录token | T |
+
+创建成功：200
+
+```json
+{
+    "id":,
+    "name":"",
+    "image":""
+}
+```
+
+##### 三.3.6.2 获取内存及存储信息id
+
+内存及存储是可以静态全包含的，所以传数据后返回匹配的id即可
+
+GET /memoryAndDiskIdInfo
+
+| 属性名 | 属性类型 | 描述 | 是否必须 |
+| -- | -- | -- | -- |
+| memory | String(Integer) | 内存大小（memory<2或memory>32时认为为other） | T |
+| disk | String | 磁盘大小(disk<16或disk>8192GB时认为是其他) | T |
+
+正常响应：200
+
+```json
+{
+    "id":,
+    "name":"自动生成",
+    "memory":,
+    "disk":
+}
+```
+
+### 三.4 购物车
+
+baseURL: /cart
+
+#### 三.4.1 创建购物车
+
+POST /createCart
+
+Cookies：
+
+| 属性名 | 属性类型 | 描述 | 是否必须 |
+| -- | -- | -- | -- |
+| token | String(UUID) | 商品订单ID | T |
+
+创建成功：200
+
+```json
+{
+    "id":""
+}
+```
+
+创建失败：404
+
+```json
+{
+    "message":"用户未登录！"
+}
+```
+
+#### 三.4.2 添加商品
+
+POST /addProductions
+
+Params:
+
+| 属性名 | 属性类型 | 描述 | 是否必须 |
+| -- | -- | -- | -- |
+| id | String(UUID) | 购物车Id | T |
+| itemId | Long | 指定产品Id | T |
+| count | short | 产品个数(我不认为会有人一单打算购买>32767个手机……) | T |
+
+添加成功：200
+
+#### 三.4.3 删除商品
+
+POST,DELETE(Supported) /deleteProduction
+
+Params:
+
+| 属性名 | 属性类型 | 描述 | 是否必须 |
+| -- | -- | -- | -- |
+| id | String(UUID) | 购物车Id | T |
+| itemId | Long | 指定产品Id | T |
+
+删除成功：200
+
+删除失败（未找到）:404

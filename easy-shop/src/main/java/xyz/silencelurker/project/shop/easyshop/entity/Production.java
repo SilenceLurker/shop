@@ -29,4 +29,8 @@ public class Production {
     private short subId;
     private double price;
     private long time;
+
+    public Production() {
+        this.time = System.currentTimeMillis();
+    }
 }
