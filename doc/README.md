@@ -166,6 +166,17 @@
 
 保留位|品牌编号|内存及存储|颜色信息|系统|类型|是否启用|单个产品独立id
 
+Brand
+
+| 属性名 | 属性类型 | 描述 | 是否必须 |
+| -- | -- | -- | -- |
+| id | Short | 品牌独立id，应与供应商匹配 | T |
+| name | String | 品牌名称 | T |
+
+0b0|000 0000 0000 0000
+
+留白|品牌有效id
+
 Color
 
 | 属性名 | 属性类型 | 描述 | 是否必须 |
@@ -178,16 +189,42 @@ Color
 
 品牌信息|颜色信息|单个产品独立id
 
-Brand
+Type
 
-| 属性名 | 属性类型 | 描述 | 是否必须 |
-| -- | -- | -- | -- |
-| id | Short | 品牌独立id，应与供应商匹配 | T |
-| name | String | 品牌名称 | T |
+```java
+public enum Type {
+    /**
+     * 官方机
+     */
+    OfficialMachine("官方机", (short) 0b1),
+    /**
+     * 官翻机
+     */
+    OfficialFlipMachine("官翻机", (short) 0b10),
+    /**
+     * 品质二手
+     */
+    OfficialSecondHand("品质二手", (short) 0b100);
 
-0b0|000 0000 0000 0000
+    @Id
+    private short typeCode;
+    private String type;
 
-留白|品牌有效id
+    private Type(String type, short typeCode) {
+        this.type = type;
+        this.typeCode = typeCode;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public short getTypeCode() {
+        return typeCode;
+    }
+
+}
+```
 
 MemoryAndDisk
 
