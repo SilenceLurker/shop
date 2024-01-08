@@ -15,6 +15,7 @@ public final class Supporter extends BaseAccountLoginInfo {
     private String logo;
     private String info;
     private String email;
+    private Brand brand;
     private String unitName;
     private String unitAddress;
 }

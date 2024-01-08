@@ -50,7 +50,7 @@ public class MailSenderService {
         return confirmCode;
     }
 
-    private static final int BASE_CONFIRM_CODE_LENGTH = 6;
+    private static final int BASE_CONFIRM_CODE_LENGTH = 5;
 
     protected String randomConfirmCode() {
         return randomConfirmCode(BASE_CONFIRM_CODE_LENGTH);

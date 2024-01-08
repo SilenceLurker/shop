@@ -7,8 +7,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
+import jakarta.annotation.Resource;
 import jakarta.mail.internet.MimeMessage;
 import lombok.extern.log4j.Log4j2;
+import xyz.silencelurker.project.shop.easyshop.entity.MemoryAndDisk;
+import xyz.silencelurker.project.shop.easyshop.repository.MemoryAndDiskRepository;
 
 @Log4j2
 @SpringBootTest
@@ -54,4 +57,24 @@ class EasyShopApplicationTests {
 		}
 	}
 
+	@Resource
+	private MemoryAndDiskRepository memoryAndDiskRepository;
+
+	@Test
+	public void init() {
+		var length = memoryAndDiskRepository.findAll().size();
+
+		if (length > 0) {
+			return;
+		}
+		for (short i = Short.MIN_VALUE; i < Short.MAX_VALUE; i++) {
+			MemoryAndDisk memoryAndDisk = new MemoryAndDisk();
+			memoryAndDisk.setId(i);
+			memoryAndDisk.setDisk((short) (i | MemoryAndDisk.OTHER_DISK));
+			memoryAndDisk.setMemory((short) (i | MemoryAndDisk.OTHER_MENORY));
+			memoryAndDisk.setName(
+					((memoryAndDisk.getMemory() + 1) << 1) + " + " + ((memoryAndDisk.getDisk() + 1) << 4) + "GB");
+			memoryAndDiskRepository.save(memoryAndDisk);
+		}
+	}
 }

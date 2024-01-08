@@ -1,5 +1,7 @@
 package xyz.silencelurker.project.shop.easyshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,4 +24,18 @@ public class Color {
     private int id;
     private String name;
     private String image;
+
+    @JsonIgnore
+    public static final int BRAND_LEFT_BITE = 17;
+    @JsonIgnore
+    public static final int COLOR_LEFT_BITE = 12;
+    @JsonIgnore
+    public static final int PRODUCTION_LEFT_BITY = 0;
+
+    @JsonIgnore
+    public static final int BRAND_AVAILABLE_BITE = 0b11111111111111100000000000000000;
+    @JsonIgnore
+    public static final int COLOR_AVAILABLE_BITE = 0b11111000000000000;
+    @JsonIgnore
+    public static final int PRODUCTION_AVAILABLE_BITE = 0b111111111111;
 }
