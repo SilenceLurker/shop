@@ -1,6 +1,7 @@
 package xyz.silencelurker.project.shop.easyshop.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToOne;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -10,11 +11,12 @@ import lombok.EqualsAndHashCode;
 @Data
 @Entity
 @EqualsAndHashCode(callSuper = true)
-public final class Supporter extends BaseAccountLoginInfo {
+public class Supporter extends BaseAccountLoginInfo {
     private String name;
     private String logo;
     private String info;
     private String email;
+    @OneToOne
     private Brand brand;
     private String unitName;
     private String unitAddress;

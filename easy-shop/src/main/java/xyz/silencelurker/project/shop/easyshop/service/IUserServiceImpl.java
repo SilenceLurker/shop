@@ -2,12 +2,12 @@ package xyz.silencelurker.project.shop.easyshop.service;
 
 import java.time.Duration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
-import jakarta.annotation.Resource;
 import xyz.silencelurker.project.shop.easyshop.entity.User;
 import xyz.silencelurker.project.shop.easyshop.repository.UserRepository;
 
@@ -16,14 +16,11 @@ import xyz.silencelurker.project.shop.easyshop.repository.UserRepository;
  */
 @Service
 public class IUserServiceImpl implements IUserService {
-
-    @Resource
+    @Autowired
     private UserRepository userRepository;
-
-    @Resource
+    @Autowired
     private StringRedisTemplate template;
-
-    @Resource
+    @Autowired
     private MailSenderService mailSenderService;
 
     @Override

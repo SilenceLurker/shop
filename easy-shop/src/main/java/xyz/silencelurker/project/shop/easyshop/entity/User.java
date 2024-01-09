@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
-public final class User extends BaseAccountLoginInfo {
+public class User extends BaseAccountLoginInfo {
     private String name;
     private String nickName;
     private String info;

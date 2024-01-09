@@ -9,18 +9,19 @@ public interface IRecommendationService {
     /**
      * 设定推荐产品
      * 
-     * @param id
+     * @param supporterId
      * @param productions
      * @param logo
      */
-    void setRecommendations(int id, List<Long> productions, String logo);
+    void setRecommendations(int supporterId, List<Long> productions, String logo);
 
     /**
      * 改变推荐产品状态
      * 
      * @param id
+     * @param recommendationId
      * @param enable
      * @return
      */
-    boolean changeRecommendationStatus(int id, boolean enable);
+    boolean changeRecommendationStatus(int id, int recommendationId, boolean enable);
 }

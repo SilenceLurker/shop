@@ -7,6 +7,7 @@ import xyz.silencelurker.project.shop.easyshop.entity.OrderInfo;
 /**
  * @author Silence_Lurker
  */
+
 public interface OrderInfoRepository extends JpaRepository<OrderInfo, String> {
 
 }

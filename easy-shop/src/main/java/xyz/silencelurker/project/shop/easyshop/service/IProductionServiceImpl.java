@@ -15,6 +15,7 @@ import xyz.silencelurker.project.shop.easyshop.repository.SupporterRepository;
 /**
  * @author Silence_Lurker
  */
+
 @Service
 public class IProductionServiceImpl implements IProductionService {
 

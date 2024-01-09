@@ -13,6 +13,7 @@ import xyz.silencelurker.project.shop.easyshop.repository.SendInfoRepository;
 /**
  * @author Silence_Lurker
  */
+
 @Service
 public class ISendInfoServiceImpl implements ISendInfoService {
     @Resource

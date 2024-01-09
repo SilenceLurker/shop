@@ -4,7 +4,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import jakarta.annotation.Resource;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Data;
@@ -16,6 +15,8 @@ import static xyz.silencelurker.project.shop.easyshop.utils.TokenUtil.*;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatusCode;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 /**
  * @author Silence_Lurker
  */
+
 @Log4j2
 @CrossOrigin
 @ApiResponses
@@ -37,13 +39,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RestController
 public class AccountController {
 
-    @Resource
+    @Autowired
     private IAccountLoginInfoService accountLoginInfoService;
 
-    @Resource
+    @Autowired
     private IUserService userService;
 
-    @Resource
+    @Autowired
     private StringRedisTemplate template;
 
     @Data
@@ -52,13 +54,6 @@ public class AccountController {
         String name;
         String email;
         String password;
-    }
-
-    @GetMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginUser loginData,
-            @CookieValue(name = "token", required = false) String token) {
-
-        throw new UnsupportedOperationException();
     }
 
     @GetMapping("/check")

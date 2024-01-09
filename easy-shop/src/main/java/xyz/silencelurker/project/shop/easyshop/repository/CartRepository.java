@@ -7,6 +7,7 @@ import xyz.silencelurker.project.shop.easyshop.entity.Cart;
 /**
  * @author Silence_Lurker
  */
+
 public interface CartRepository extends JpaRepository<Cart, String> {
 
 }
