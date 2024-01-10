@@ -7,9 +7,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.annotation.Resource;
 import lombok.Data;
 import xyz.silencelurker.project.shop.easyshop.entity.Brand;
+import xyz.silencelurker.project.shop.easyshop.entity.Color;
 import xyz.silencelurker.project.shop.easyshop.entity.Production;
 import xyz.silencelurker.project.shop.easyshop.entity.Supporter;
 import xyz.silencelurker.project.shop.easyshop.entity.SupporterInfo;
+import xyz.silencelurker.project.shop.easyshop.entity.SystemType;
 import xyz.silencelurker.project.shop.easyshop.service.IBrandService;
 import xyz.silencelurker.project.shop.easyshop.service.IColorService;
 import xyz.silencelurker.project.shop.easyshop.service.IMemoryAndDiskService;
@@ -17,6 +19,8 @@ import xyz.silencelurker.project.shop.easyshop.service.IProductionService;
 import xyz.silencelurker.project.shop.easyshop.service.IRecommendationService;
 import xyz.silencelurker.project.shop.easyshop.service.ISupporterInfoService;
 import xyz.silencelurker.project.shop.easyshop.service.ISupporterService;
+import xyz.silencelurker.project.shop.easyshop.service.ISystemTypeService;
+import xyz.silencelurker.project.shop.easyshop.service.ITypeService;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -28,6 +32,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+
+import static xyz.silencelurker.project.shop.easyshop.utils.MemoryAndDiskUtil.*;
 
 /**
  * @author Silence_Lurker
@@ -101,7 +107,7 @@ public class SupporterController {
     }
 
     public class TargetProduction {
-        int id;
+        int subId;
         String name;
         int brand;
         int color;
@@ -119,22 +125,59 @@ public class SupporterController {
     @Resource
     private IColorService colorService;
 
+    @GetMapping("/initSubId")
+    public ResponseEntity<?> getSubId(@CookieValue String token) {
+
+        var supporter = supporterService.supporterLoginIn(token);
+        Brand brand = supporter.getBrand();
+        var newPro = new Production();
+        newPro.setBrand(brand);
+        var subId = productionService
+                .getAllByExample(Example.of(newPro, ExampleMatcher.matching().withIgnoreNullValues())).size();
+
+        newPro.setSubId((short) subId);
+        productionService.createProduction(newPro);
+
+        return ResponseEntity.ok().body(subId);
+    }
+
+    @Resource
+    private ITypeService typeService;
+    @Resource
+    private ISystemTypeService systemTypeService;
+
     @PostMapping("/createProduction")
     public ResponseEntity<?> createProduction(@RequestBody TargetProduction production, @CookieValue String token) {
         var supporter = supporterService.supporterLoginIn(token);
 
         Brand brand = supporter.getBrand();
-
         var newPro = new Production();
-
         newPro.setBrand(brand);
-
         var subId = productionService
                 .getAllByExample(Example.of(newPro, ExampleMatcher.matching().withIgnoreNullValues())).size();
 
-        productionService.createProduction(null);
+        newPro.setSubId((short) subId);
+        var color = new Color();
+        color.setId(production.color);
+        newPro.setColor(
+                colorService.findColorByExample(Example.of(color, ExampleMatcher.matching().withIgnoreNullValues()))
+                        .get(0));
+        newPro.setEnable(production.enable);
+        var mem = buildMemoryAndDisk(production.memoryAndDisk);
+        memoryAndDiskService.addMemoryAndDisk(mem);
+        newPro.setMemoryAndDisk(mem);
+        newPro.setName(production.name);
+        var type = typeService.getTypeByCode(production.type);
+        newPro.setType(type);
+        var systemType = new SystemType();
+        systemType.setId((short) production.system);
+        var systemTypeExample = Example.of(systemType, ExampleMatcher.matching().withIgnoreNullValues());
+        newPro.setSystem(systemTypeService.getSystemType(systemTypeExample));
+        newPro.setPrice(production.price);
 
-        return ResponseEntity.notFound().build();
+        productionService.createProduction(newPro);
+
+        return ResponseEntity.ok().body(newPro);
     }
 
 }

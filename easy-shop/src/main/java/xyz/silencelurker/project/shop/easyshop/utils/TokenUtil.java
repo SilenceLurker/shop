@@ -10,6 +10,10 @@ import com.auth0.jwt.algorithms.Algorithm;
  * @author Silence_Lurker
  */
 public class TokenUtil {
+
+    private TokenUtil() {
+    }
+
     private static final String PRIVATE_KEY = "SecurityKey";
 
     public static String buildToken(Map<String, String> info) {

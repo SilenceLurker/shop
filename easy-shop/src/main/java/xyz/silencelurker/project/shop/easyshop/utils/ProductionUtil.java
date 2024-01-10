@@ -6,6 +6,8 @@ import xyz.silencelurker.project.shop.easyshop.entity.Production;
  * @author Silence_Lurker
  */
 public class ProductionUtil {
+    private ProductionUtil() {
+    }
 
     public static Long productionIdBuild(Production production) {
         Long productionId = (long) 0;

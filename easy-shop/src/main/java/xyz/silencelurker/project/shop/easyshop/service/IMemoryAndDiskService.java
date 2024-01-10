@@ -25,4 +25,11 @@ public interface IMemoryAndDiskService {
      * @return
      */
     List<MemoryAndDisk> findMatchMemoryAndDisks(Example<MemoryAndDisk> example);
+
+    /**
+     * add new Mem
+     * 
+     * @param memoryAndDisk
+     */
+    void addMemoryAndDisk(MemoryAndDisk memoryAndDisk);
 }

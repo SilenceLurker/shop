@@ -28,4 +28,9 @@ public class IMemoryAndDiskServiceImpl implements IMemoryAndDiskService {
         return repository.findAll(example);
     }
 
+    @Override
+    public void addMemoryAndDisk(MemoryAndDisk memoryAndDisk) {
+        repository.save(memoryAndDisk);
+    }
+
 }
