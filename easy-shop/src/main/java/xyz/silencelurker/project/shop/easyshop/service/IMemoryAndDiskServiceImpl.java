@@ -12,6 +12,7 @@ import xyz.silencelurker.project.shop.easyshop.repository.MemoryAndDiskRepositor
 /**
  * @author Silence_Lurker
  */
+
 @Service
 public class IMemoryAndDiskServiceImpl implements IMemoryAndDiskService {
     @Resource

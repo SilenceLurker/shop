@@ -7,6 +7,7 @@ import xyz.silencelurker.project.shop.easyshop.entity.SendInfo;
 /**
  * @author Silence_Lurker
  */
+
 public interface SendInfoRepository extends JpaRepository<SendInfo, String> {
 
 }

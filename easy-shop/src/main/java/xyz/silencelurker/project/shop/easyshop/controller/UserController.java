@@ -24,6 +24,7 @@ import static xyz.silencelurker.project.shop.easyshop.utils.TokenUtil.*;
 /**
  * @author Silence_Lurker
  */
+
 @ApiResponses
 @CrossOrigin
 @RequestMapping("/user")

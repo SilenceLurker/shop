@@ -1,6 +1,7 @@
 package xyz.silencelurker.project.shop.easyshop.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -17,17 +18,19 @@ public class Production {
      * WTF???
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Brand.class)
     private Brand brand;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Color.class)
     private Color color;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = SystemType.class)
     private SystemType system;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Type.class)
     private Type type;
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = MemoryAndDisk.class)
+    private MemoryAndDisk memoryAndDisk;
     private boolean enable;
     private short subId;
     private double price;

@@ -7,6 +7,7 @@ import xyz.silencelurker.project.shop.easyshop.entity.MemoryAndDisk;
 /**
  * @author Silence_lurker
  */
+
 public interface MemoryAndDiskRepository extends JpaRepository<MemoryAndDisk, Short> {
 
 }

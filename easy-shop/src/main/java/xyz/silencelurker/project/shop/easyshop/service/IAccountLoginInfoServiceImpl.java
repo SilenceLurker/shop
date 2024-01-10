@@ -9,6 +9,7 @@ import jakarta.annotation.Resource;
 /**
  * @author Silence_Lurker
  */
+
 @Service
 public class IAccountLoginInfoServiceImpl implements IAccountLoginInfoService {
 
@@ -34,8 +35,7 @@ public class IAccountLoginInfoServiceImpl implements IAccountLoginInfoService {
 
     @Override
     public void loginOut(String token) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'loginOut'");
+
     }
 
     @Override

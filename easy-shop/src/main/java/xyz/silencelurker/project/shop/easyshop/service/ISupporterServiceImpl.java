@@ -15,6 +15,7 @@ import static xyz.silencelurker.project.shop.easyshop.utils.TokenUtil.*;
 /**
  * @author Silence_Lurker
  */
+
 @Service
 public class ISupporterServiceImpl implements ISupporterService {
 
