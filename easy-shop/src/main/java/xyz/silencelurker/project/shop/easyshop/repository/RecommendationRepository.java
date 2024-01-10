@@ -7,6 +7,7 @@ import xyz.silencelurker.project.shop.easyshop.entity.Recommendation;
 /**
  * @author Silence_Lurker
  */
+
 public interface RecommendationRepository extends JpaRepository<Recommendation, Integer> {
 
 }

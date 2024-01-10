@@ -7,6 +7,7 @@ import xyz.silencelurker.project.shop.easyshop.entity.SupporterInfo;
 /**
  * @author Silence_Lurker
  */
+
 public interface SupporterInfoRepository extends JpaRepository<SupporterInfo, Integer> {
 
 }

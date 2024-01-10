@@ -6,7 +6,8 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.1-SNAPSHOT</version>
+		<version>3.2.2-SNAPSHOT</version>
+		<!-- <version>2.1.6.RELEASE</version> -->
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>xyz.silencelurker.project.shop</groupId>
@@ -61,6 +62,18 @@
 			<artifactId>spring-restdocs-mockmvc</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
+			<version>3.10.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.2.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
