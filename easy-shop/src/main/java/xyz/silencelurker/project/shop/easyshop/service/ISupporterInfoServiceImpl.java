@@ -9,6 +9,7 @@ import xyz.silencelurker.project.shop.easyshop.repository.SupporterInfoRepositor
 /**
  * @author Silence_Lurker
  */
+
 @Service
 public class ISupporterInfoServiceImpl implements ISupporterInfoService {
 

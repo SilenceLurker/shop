@@ -7,6 +7,7 @@ import xyz.silencelurker.project.shop.easyshop.entity.Type;
 /**
  * @author Silence_Lurker
  */
+
 public interface TypeRepository extends JpaRepository<Type, Short> {
 
 }

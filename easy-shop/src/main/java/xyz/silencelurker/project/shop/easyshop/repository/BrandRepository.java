@@ -7,6 +7,7 @@ import xyz.silencelurker.project.shop.easyshop.entity.Brand;
 /**
  * @author Silence_Lurker
  */
-public interface BrandRepository extends JpaRepository<Brand, Short> {
+
+public interface BrandRepository extends JpaRepository<Brand, Integer> {
 
 }

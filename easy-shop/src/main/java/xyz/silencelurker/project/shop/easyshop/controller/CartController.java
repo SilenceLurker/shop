@@ -20,6 +20,7 @@ import static xyz.silencelurker.project.shop.easyshop.utils.TokenUtil.*;
 /**
  * @author Silence_Lurker
  */
+
 @CrossOrigin
 @ApiResponses
 @RequestMapping("/cart")
@@ -63,7 +64,7 @@ public class CartController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping
+    @DeleteMapping("/deleteProduction")
     @PostMapping("/deleteProduction")
     public ResponseEntity<?> deleteProduction(String id, Long itemId) {
         try {

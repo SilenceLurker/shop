@@ -22,6 +22,7 @@ import static xyz.silencelurker.project.shop.easyshop.utils.TokenUtil.*;
 /**
  * @author Silence_Lurker
  */
+
 @Async
 @CrossOrigin
 @ApiResponses

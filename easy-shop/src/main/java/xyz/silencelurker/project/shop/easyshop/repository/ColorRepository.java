@@ -7,6 +7,7 @@ import xyz.silencelurker.project.shop.easyshop.entity.Color;
 /**
  * @author Silence_Lurker
  */
+
 public interface ColorRepository extends JpaRepository<Color, Integer> {
 
 }

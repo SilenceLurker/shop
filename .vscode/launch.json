@@ -5,6 +5,20 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "java",
+            "name": "TestApplication",
+            "request": "launch",
+            "mainClass": "xyz.silencelurker.project.shop.test.TestApplication",
+            "projectName": "test"
+        },
+        {
+            "type": "java",
+            "name": "EasyShopApplication",
+            "request": "launch",
+            "mainClass": "xyz.silencelurker.project.shop.easyshop.EasyShopApplication",
+            "projectName": "easy-shop-copy"
+        },
+        {
             "name": "Java",
             "type": "java",
             "request": "launch",

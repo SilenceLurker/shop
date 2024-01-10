@@ -1,6 +1,5 @@
 package xyz.silencelurker.project.shop.easyshop.entity;
 
-import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Data;
@@ -10,7 +9,6 @@ import lombok.Data;
  */
 @Data
 @Entity
-@Embeddable
 public class SystemType {
     @Id
     private short id;

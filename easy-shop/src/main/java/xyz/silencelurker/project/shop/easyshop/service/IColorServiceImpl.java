@@ -12,6 +12,7 @@ import xyz.silencelurker.project.shop.easyshop.repository.ColorRepository;
 /**
  * @author Silence_Lurker
  */
+
 @Service
 public class IColorServiceImpl implements IColorService {
     @Resource
