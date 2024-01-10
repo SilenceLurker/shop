@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import static xyz.silencelurker.project.shop.easyshop.utils.TokenUtil.*;
+
 /**
  * @author Silence_Lurker
  */
@@ -25,8 +27,9 @@ public class ProductionController {
 
     @GetMapping("/details")
     public ResponseEntity<?> details(@RequestParam int subId, @CookieValue String token) {
-
-        return ResponseEntity.notFound().build();
+            var map = decodeToken(token);
+        
+            return ResponseEntity.ok(productionService.findProductionBySubId(subId, Integer.parseInt(map.get("id"))));
     }
 
 }

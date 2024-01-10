@@ -64,7 +64,7 @@ public class CartController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping
+    @DeleteMapping("/deleteProduction")
     @PostMapping("/deleteProduction")
     public ResponseEntity<?> deleteProduction(String id, Long itemId) {
         try {

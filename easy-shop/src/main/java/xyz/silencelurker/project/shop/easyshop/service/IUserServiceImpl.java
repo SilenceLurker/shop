@@ -44,7 +44,7 @@ public class IUserServiceImpl implements IUserService {
         var user = new User();
         user.setName(name);
         user.setPassword(password);
-        Example<User> example = Example.of(user, ExampleMatcher.matching().withIgnoreNullValues());
+        Example<User> example = Example.of(user, ExampleMatcher.matching().withIgnoreCase("id","email").withIgnoreNullValues());
 
         var info = userRepository.findAll(example);
 
@@ -57,7 +57,7 @@ public class IUserServiceImpl implements IUserService {
         var user = new User();
         user.setAccountId(Integer.parseInt(id));
         user.setPassword(password);
-        Example<User> example = Example.of(user, ExampleMatcher.matching().withIgnoreNullValues());
+        Example<User> example = Example.of(user, ExampleMatcher.matching().withIgnoreCase("name","email").withIgnoreNullValues());
 
         var info = userRepository.findAll(example);
 
@@ -69,7 +69,7 @@ public class IUserServiceImpl implements IUserService {
         var user = new User();
         user.setEmail(email);
         user.setPassword(password);
-        Example<User> example = Example.of(user, ExampleMatcher.matching().withIgnoreNullValues());
+        Example<User> example = Example.of(user, ExampleMatcher.matching().withIgnoreCase("id","name").withIgnoreNullValues());
 
         var info = userRepository.findAll(example);
 
