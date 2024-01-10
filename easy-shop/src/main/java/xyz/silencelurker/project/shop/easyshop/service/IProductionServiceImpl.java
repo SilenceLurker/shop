@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;
@@ -62,6 +64,26 @@ public class IProductionServiceImpl implements IProductionService {
 
         return production.getEnable();
 
+    }
+
+    @Override
+    public List<Production> getAllProduction() {
+        return productionRepository.findAll();
+    }
+
+    @Override
+    public Page<Production> getAllProduction(Pageable pageable) {
+        return productionRepository.findAll(pageable);
+    }
+
+    @Override
+    public List<Production> getAllByExample(Example<Production> example) {
+        return productionRepository.findAll(example);
+    }
+
+    @Override
+    public Page<Production> getAllByExample(Example<Production> example, Pageable pageable) {
+        return productionRepository.findAll(example, pageable);
     }
 
 }

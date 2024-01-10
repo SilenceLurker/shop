@@ -7,13 +7,19 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.annotation.Resource;
 import lombok.Data;
 import xyz.silencelurker.project.shop.easyshop.entity.Brand;
+import xyz.silencelurker.project.shop.easyshop.entity.Production;
 import xyz.silencelurker.project.shop.easyshop.entity.Supporter;
 import xyz.silencelurker.project.shop.easyshop.entity.SupporterInfo;
+import xyz.silencelurker.project.shop.easyshop.service.IBrandService;
+import xyz.silencelurker.project.shop.easyshop.service.IColorService;
+import xyz.silencelurker.project.shop.easyshop.service.IMemoryAndDiskService;
 import xyz.silencelurker.project.shop.easyshop.service.IProductionService;
 import xyz.silencelurker.project.shop.easyshop.service.IRecommendationService;
 import xyz.silencelurker.project.shop.easyshop.service.ISupporterInfoService;
 import xyz.silencelurker.project.shop.easyshop.service.ISupporterService;
 
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -92,6 +98,43 @@ public class SupporterController {
                 recommendation.logo);
 
         return ResponseEntity.ok().build();
+    }
+
+    public class TargetProduction {
+        int id;
+        String name;
+        int brand;
+        int color;
+        int system;
+        int type;
+        boolean enable;
+        int memoryAndDisk;
+        double price;
+    }
+
+    @Resource
+    private IBrandService brandService;
+    @Resource
+    private IMemoryAndDiskService memoryAndDiskService;
+    @Resource
+    private IColorService colorService;
+
+    @PostMapping("/createProduction")
+    public ResponseEntity<?> createProduction(@RequestBody TargetProduction production, @CookieValue String token) {
+        var supporter = supporterService.supporterLoginIn(token);
+
+        Brand brand = supporter.getBrand();
+
+        var newPro = new Production();
+
+        newPro.setBrand(brand);
+
+        var subId = productionService
+                .getAllByExample(Example.of(newPro, ExampleMatcher.matching().withIgnoreNullValues())).size();
+
+        productionService.createProduction(null);
+
+        return ResponseEntity.notFound().build();
     }
 
 }

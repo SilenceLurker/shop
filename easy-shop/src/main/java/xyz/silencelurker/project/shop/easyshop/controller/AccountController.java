@@ -8,7 +8,6 @@ import jakarta.annotation.Nullable;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import xyz.silencelurker.project.shop.easyshop.service.IAccountLoginInfoService;
 import xyz.silencelurker.project.shop.easyshop.service.IUserService;
@@ -58,7 +57,7 @@ public class AccountController {
         String email;
         String password;
 
-        public LoginUser(){
+        public LoginUser() {
             super();
         }
     }
@@ -141,7 +140,7 @@ public class AccountController {
 
                 var user = userService.loginByName(name, passwd);
 
-                userData.put("id", user.getAccountId()+ "") ;
+                userData.put("id", user.getAccountId() + "");
                 userData.put("email", user.getEmail());
 
                 token = buildToken(userData);

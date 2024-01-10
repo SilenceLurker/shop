@@ -2,6 +2,10 @@ package xyz.silencelurker.project.shop.easyshop.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import xyz.silencelurker.project.shop.easyshop.entity.Production;
 
 /**
@@ -24,6 +28,38 @@ public interface IProductionService {
      * @return
      */
     List<Production> findProductionBySubId(int subId, int accountId);
+
+    /**
+     * get All
+     * 
+     * @return
+     */
+    List<Production> getAllProduction();
+
+    /**
+     * 分页
+     * 
+     * @param pageable
+     * @return
+     */
+    Page<Production> getAllProduction(Pageable pageable);
+
+    /**
+     * get by example
+     * 
+     * @param example
+     * @return
+     */
+    List<Production> getAllByExample(Example<Production> example);
+
+    /**
+     * get by example
+     * 
+     * @param example
+     * @param pageable
+     * @return
+     */
+    Page<Production> getAllByExample(Example<Production> example, Pageable pageable);
 
     /**
      * change status
