@@ -772,8 +772,6 @@ Params:
 
 删除失败（未找到）:404
 
-
-
 #### 三.4.4 获取全部商品
 
 GET /getAllProductions
@@ -846,4 +844,3 @@ Params:
     productions:[]
 }
 ```
-

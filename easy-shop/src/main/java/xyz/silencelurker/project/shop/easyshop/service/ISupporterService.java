@@ -17,7 +17,25 @@ public interface ISupporterService {
      * 更新供应商账户信息
      * 
      * @param newSupporterInfo
+     * 
+     * @return old info
      */
-    void updateSupporterInfo(Supporter newSupporterInfo);
+    Supporter updateSupporterInfo(Supporter newSupporterInfo);
 
+    /**
+     * Supporter login in
+     * 
+     * @param id
+     * @param password
+     * @return
+     */
+    Supporter supporterLoginIn(int id, String password);
+
+    /**
+     * Supporter Login in by token cookie
+     * 
+     * @param cookie
+     * @return
+     */
+    Supporter supporterLoginIn(String cookie);
 }

@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class EasyShopApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(EasyShopApplication.class, args);
 	}
 

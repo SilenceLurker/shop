@@ -23,7 +23,7 @@ public interface IUserService {
      * @param password
      * @return
      */
-    String loginByName(String name, String password);
+    User loginByName(String name, String password);
 
     /**
      * 通过id登录
@@ -32,7 +32,7 @@ public interface IUserService {
      * @param password
      * @return
      */
-    String loginById(String id, String password);
+    User loginById(String id, String password);
 
     /**
      * 通过邮箱地址登录
@@ -41,7 +41,7 @@ public interface IUserService {
      * @param password
      * @return
      */
-    String loginByEmail(String email, String password);
+    User loginByEmail(String email, String password);
 
     /**
      * 更新用户信息
@@ -55,20 +55,28 @@ public interface IUserService {
     /**
      * 邮箱更新
      * 
-     * @param accoutnId
+     * @param accountId
      * @return 一个随机特征值，可以为UUID或其他什么乱七八糟的东西
      */
-    String emailUpdate(int accoutnId);
+    String emailUpdate(int accountId);
 
     /**
      * 更改邮箱确认
      * 
-     * @param code
+     * @param newEmail
      * @param checkCode
      * @param accountId
      * 
      * @return true为认证成功并更改，false为认证失败
      */
-    boolean emailUpdateConfirm(String code, String checkCode, int accountId);
+    boolean emailUpdateConfirm(String newEmail, String checkCode, int accountId);
+
+    /**
+     * get accountId user info
+     * 
+     * @param accountId
+     * @return
+     */
+    User getUserInfo(int accountId);
 
 }
