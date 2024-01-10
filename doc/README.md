@@ -772,6 +772,8 @@ Params:
 
 删除失败（未找到）:404
 
+
+
 #### 三.4.4 获取全部商品
 
 GET /getAllProductions
@@ -844,7 +846,6 @@ Params:
     productions:[]
 }
 ```
-<<<<<<< HEAD
 
 ### 三.6 品牌
 
@@ -862,5 +863,3 @@ GET /getAllBrands
 }
 ```
 
-=======
->>>>>>> 04d4f6226415c6b74f2839cdde573332f066d068
