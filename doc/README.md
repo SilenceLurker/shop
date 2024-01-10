@@ -1,5 +1,9 @@
 # 手机商城系统
 
+目录：
+
+[TOC]
+
 <!-- vscode-markdown-toc -->
 * 1. [一 项目需求分析](#一-项目需求分析)
   * 1.1. [一.1 用户](#一.1-用户)
@@ -42,8 +46,6 @@
 	autoSave=true
 	/vscode-markdown-toc-config -->
 <!-- /vscode-markdown-toc -->
-
-目录：
 
 为便于用户在多个供应商间选择最适合自己的设备而产生的该系统的开发需求。该系统应能满足用户针对自身需求的快速查询，也可为供应商提供快速简便的商品管理服务。
 
@@ -646,11 +648,13 @@ POST /changeRecommendationStatus
 
 需要先新建对应的一些参数信息如颜色
 
+POST /createProduction
+
 Body:
 
 | 属性名 | 属性类型 | 描述 | 是否必须 |
 | -- | -- | -- | -- |
-| 宿便ID | int | 该供应商提供的产品的个数（对应id，提供接口进行查询） | T |
+| id | int | 该供应商提供的产品的个数（对应id，提供接口进行查询） | T |
 | name | String | 产品名 | T |
 | brand | int | 供应商对应品牌/公司id | T |
 | color | int | 构建的对应颜色的id | T |
@@ -770,33 +774,76 @@ Params:
 
 
 
-### 三.5 商品详情
+#### 三.4.4 获取全部商品
 
-baseURL: /production
+GET /getAllProductions
 
-#### 三.5.1 获取商品详情
+先留白，因为根本看不懂实体类想给我什么东西
 
-GET /details
+Params:
 
-Params：
+| 属性名 | 属性类型 | 描述 | 是否必须 |
+| ------ | -------- | ---- | -------- |
+|        |          |      |          |
 
-| 属性名 | 属性类型 | 描述             | 是否必须 |
-| ------ | -------- | ---------------- | -------- |
-| subId  | Short    | 所属品牌下独立id | T        |
 
-搜索成功：200
+
+### 三.5 商品
+
+/production
+
+#### 三.5.1 获取全部商品
+
+GET /getAllProductions
+
+查找成功：200
 
 ```json
 {
-    "productions":[],
+    production:[]
 }
 ```
 
+#### 三.5.2 获取筛选商品
 
+POST /selectProductions
 
+Params:
 
+| 属性名 | 属性类型 | 描述     | 是否必须 |
+| ------ | -------- | -------- | -------- |
+| name   | String   | 商品名称 | F        |
+| brand  | String   | 品牌名称 | F        |
+| type   | String   | 类型     | F        |
+| system | String   | 系统类型 | F        |
 
+全部传送String类型，并且后三项可能为"全部"
 
+查找成功：200
 
+```json
+{
+    productions:[]
+}
+```
 
+#### 三.5.3 获取单一商品
+
+POST /getProduction
+
+Params:
+
+| 属性名 | 属性类型 | 描述   | 是否必须 |
+| ------ | -------- | ------ | -------- |
+| subId  | Short    | 独立id | T        |
+
+也就是通过subId查询到所有的商品（比如商品名字相同但是颜色不同的商品），前端有分离颜色和内存的方法
+
+查找成功：200
+
+```json
+{
+    productions:[]
+}
+```
 
