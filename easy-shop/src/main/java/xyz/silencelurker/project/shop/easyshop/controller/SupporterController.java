@@ -142,9 +142,22 @@ public class SupporterController {
     }
 
     @Resource
-    private ITypeService typeService;
-    @Resource
     private ISystemTypeService systemTypeService;
+
+    @PostMapping("/addSystemType")
+    public ResponseEntity<?> addSystemType(@RequestBody SystemType newSystemType) {
+
+        try {
+            systemTypeService.addNewSystemType(newSystemType);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        return ResponseEntity.ok().body("sussess!");
+    }
+
+    @Resource
+    private ITypeService typeService;
 
     @PostMapping("/createProduction")
     public ResponseEntity<?> createProduction(@RequestBody TargetProduction production, @CookieValue String token) {

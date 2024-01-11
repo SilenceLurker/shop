@@ -5,12 +5,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.annotation.Resource;
+import xyz.silencelurker.project.shop.easyshop.entity.Production;
+import xyz.silencelurker.project.shop.easyshop.entity.SystemType;
 import xyz.silencelurker.project.shop.easyshop.service.IBrandService;
 import xyz.silencelurker.project.shop.easyshop.service.IProductionService;
 import xyz.silencelurker.project.shop.easyshop.service.ISystemTypeService;
 import xyz.silencelurker.project.shop.easyshop.service.ITypeService;
 
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -61,8 +66,40 @@ public class ProductionController {
             @RequestParam(required = false, defaultValue = "") String type,
             @RequestParam(required = false, defaultValue = "") String system) {
 
-        // TODO:
-        return ResponseEntity.notFound().build();
+        var macher = ExampleMatcher.matching().withIgnoreNullValues();
+
+        var brandEntity = brandService.getBrandByName(brand);
+        var typeEntity = typeService.getTypeByName(type);
+        var temp = new SystemType();
+        temp.setType(system);
+        var systemEntity = systemTypeService
+                .getSystemType(Example.of(temp, ExampleMatcher.matching().withIgnoreNullValues()));
+
+        var production = new Production();
+        production.setName(name);
+        macher.withMatcher("name", GenericPropertyMatchers.contains());
+        production.setBrand(brandEntity == null ? null : brandEntity);
+        production.setType(typeEntity == null ? null : typeEntity);
+        production.setSystem(systemEntity == null ? null : systemEntity);
+
+        Example<Production> example = Example.of(production, macher);
+
+        var result = productionService.getAllByExample(example);
+
+        return ResponseEntity.ok().body(result);
+    }
+
+    @PostMapping("/getProduction")
+    public ResponseEntity<?> getProduction(@RequestParam String brand, @RequestParam int subId) {
+        var brandEntity = brandService.getBrandByName(brand);
+
+        var production = new Production();
+        production.setSubId((short) subId);
+        production.setBrand(brandEntity);
+
+        Example<Production> example = Example.of(production, ExampleMatcher.matching().withIgnoreNullValues());
+
+        return ResponseEntity.ok().body(productionService.getAllByExample(example));
     }
 
 }

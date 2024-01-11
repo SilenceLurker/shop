@@ -14,4 +14,12 @@ public interface ITypeService {
      */
     Type getTypeByCode(int code);
 
+    /**
+     * get by name
+     * 
+     * @param type
+     * @return
+     */
+    Type getTypeByName(String type);
+
 }

@@ -1,5 +1,7 @@
 package xyz.silencelurker.project.shop.easyshop.service;
 
+import java.util.List;
+
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
@@ -34,6 +36,11 @@ public class IBrandServiceImpl implements IBrandService {
     @Override
     public void save(Brand brand) {
         brandRepository.save(brand);
+    }
+
+    @Override
+    public List<Brand> getAll() {
+        return brandRepository.findAll();
     }
 
 }

@@ -25,4 +25,15 @@ public class ITypeServiceImpl implements ITypeService {
         }
     }
 
+    @Override
+    public Type getTypeByName(String type) {
+        if (Type.OfficialFlipMachine.getType() == type) {
+            return Type.OfficialFlipMachine;
+        } else if (Type.OfficialMachine.getType() == type) {
+            return Type.OfficialMachine;
+        } else {
+            return Type.OfficialSecondHand;
+        }
+    }
+
 }
