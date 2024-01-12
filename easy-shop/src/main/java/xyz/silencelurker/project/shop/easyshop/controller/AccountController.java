@@ -20,7 +20,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -70,7 +69,7 @@ public class AccountController {
             return ResponseEntity.ok().body(data);
         } else {
             data = "Account already Login in";
-            return ResponseEntity.status(HttpStatusCode.valueOf(502)).body(data);
+            return ResponseEntity.badRequest().body(data);
         }
     }
 
