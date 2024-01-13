@@ -42,45 +42,19 @@ public class IUserServiceImpl implements IUserService {
 
     @Override
     public User loginByName(String name, String password) {
-        var user = new User();
-        user.setName(name);
-        user.setPassword(password);
 
-        System.err.println(user.getInfo() + user.getAccountId() + user.getNickName());
-
-        Example<User> example = Example.of(user, ExampleMatcher.matching().withMatcher("name", GenericPropertyMatchers.caseSensitive()).withMatcher("password", GenericPropertyMatchers.caseSensitive()).withIgnoreNullValues());
-
-        var info = userRepository.findAll(example);
-
-        return info.get(0);
+        return userRepository.findByPasswordAndName(password, name).get(0);
 
     }
 
     @Override
     public User loginById(String id, String password) {
-        var user = new User();
-        user.setAccountId(Integer.parseInt(id));
-        user.setPassword(password);
-        Example<User> example = Example.of(user, ExampleMatcher.matching().withMatcher("id", GenericPropertyMatchers.caseSensitive()).withMatcher("password", GenericPropertyMatchers.caseSensitive()).withIgnoreNullValues());
-
-        var info = userRepository.findAll(example);
-
-        return info.get(0);
+        return userRepository.findByPasswordAndAccountId(password, Integer.parseInt(id));
     }
 
     @Override
     public User loginByEmail(String email, String password) {
-        var user = new User();
-        user.setInfo(null);
-        user.setName(null);
-        user.setNickName(null);
-        user.setEmail(email);
-        user.setPassword(password);
-        Example<User> example = Example.of(user, ExampleMatcher.matching().withMatcher("email", GenericPropertyMatchers.caseSensitive()).withMatcher("password", GenericPropertyMatchers.caseSensitive()).withIgnoreNullValues());
-
-        var info = userRepository.findAll(example);
-
-        return info.get(0);
+        return userRepository.findByPasswordAndEmail(password, email).get(0);
     }
 
     @Override

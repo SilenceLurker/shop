@@ -115,7 +115,7 @@ public class AccountController {
         var token = buildToken(userData);
         response.addCookie(new Cookie("SameSite", "None"));
 
-        if (!userLoginInfo.getId().isEmpty()) {
+        if (!userLoginInfo.getId().isEmpty() || userLoginInfo.id == null) {
             try {
                 log.info("Login by id");
 
