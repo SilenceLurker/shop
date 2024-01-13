@@ -141,6 +141,18 @@ public class SupporterController {
         return ResponseEntity.ok().body(subId);
     }
 
+    @PostMapping("/addNewColor")
+    public ResponseEntity<?> addNewColorWithProduction(int subId, @RequestBody Color color, @CookieValue String token) {
+
+        var supporter = supporterService.supporterLoginIn(token);
+
+        color.setId(((color.getId() << 12) | (subId | (supporter.getBrand().getId() << 17))));
+
+        colorService.createNewColor(color.getId(), color.getName(), color.getImage());
+
+        return ResponseEntity.ok().build();
+    }
+
     @Resource
     private ISystemTypeService systemTypeService;
 
