@@ -24,7 +24,7 @@ import static xyz.silencelurker.project.shop.easyshop.utils.TokenUtil.*;
  */
 
 @Async
-@CrossOrigin
+@CrossOrigin(originPatterns = "*", allowCredentials = "true")
 @ApiResponses
 @RestController
 @RequestMapping("/sendInfo")

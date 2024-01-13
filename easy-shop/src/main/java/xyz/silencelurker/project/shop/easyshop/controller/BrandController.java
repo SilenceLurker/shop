@@ -14,7 +14,7 @@ import xyz.silencelurker.project.shop.easyshop.service.IBrandService;
  * @author Silence_Lurker
  */
 @ApiResponses
-@CrossOrigin
+@CrossOrigin(originPatterns = "*", allowCredentials = "true")
 @RequestMapping("/brand")
 @RestController
 public class BrandController {

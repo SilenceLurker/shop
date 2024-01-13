@@ -40,7 +40,7 @@ import static xyz.silencelurker.project.shop.easyshop.utils.MemoryAndDiskUtil.*;
  */
 
 @ApiResponses
-@CrossOrigin
+@CrossOrigin(originPatterns = "*", allowCredentials = "true")
 @RestController
 @RequestMapping("/supporter")
 public class SupporterController {

@@ -5,6 +5,7 @@ import java.time.Duration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -44,7 +45,10 @@ public class IUserServiceImpl implements IUserService {
         var user = new User();
         user.setName(name);
         user.setPassword(password);
-        Example<User> example = Example.of(user, ExampleMatcher.matching().withIgnoreCase("id","email").withIgnoreNullValues());
+
+        System.err.println(user.getInfo() + user.getAccountId() + user.getNickName());
+
+        Example<User> example = Example.of(user, ExampleMatcher.matching().withMatcher("name", GenericPropertyMatchers.caseSensitive()).withMatcher("password", GenericPropertyMatchers.caseSensitive()).withIgnoreNullValues());
 
         var info = userRepository.findAll(example);
 
@@ -57,7 +61,7 @@ public class IUserServiceImpl implements IUserService {
         var user = new User();
         user.setAccountId(Integer.parseInt(id));
         user.setPassword(password);
-        Example<User> example = Example.of(user, ExampleMatcher.matching().withIgnoreCase("name","email").withIgnoreNullValues());
+        Example<User> example = Example.of(user, ExampleMatcher.matching().withMatcher("id", GenericPropertyMatchers.caseSensitive()).withMatcher("password", GenericPropertyMatchers.caseSensitive()).withIgnoreNullValues());
 
         var info = userRepository.findAll(example);
 
@@ -67,9 +71,12 @@ public class IUserServiceImpl implements IUserService {
     @Override
     public User loginByEmail(String email, String password) {
         var user = new User();
+        user.setInfo(null);
+        user.setName(null);
+        user.setNickName(null);
         user.setEmail(email);
         user.setPassword(password);
-        Example<User> example = Example.of(user, ExampleMatcher.matching().withIgnoreCase("id","name").withIgnoreNullValues());
+        Example<User> example = Example.of(user, ExampleMatcher.matching().withMatcher("email", GenericPropertyMatchers.caseSensitive()).withMatcher("password", GenericPropertyMatchers.caseSensitive()).withIgnoreNullValues());
 
         var info = userRepository.findAll(example);
 

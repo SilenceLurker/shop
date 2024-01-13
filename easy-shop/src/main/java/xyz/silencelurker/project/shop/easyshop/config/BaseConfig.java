@@ -22,7 +22,7 @@ public class BaseConfig {
         configuration.addAllowedMethod(HttpMethod.DELETE);
         configuration.addAllowedMethod(HttpMethod.PUT);
 
-        configuration.addAllowedOrigin("*");
+        configuration.addAllowedOrigin("http://192.168.0.97:8084/");
 
         configuration.addAllowedOriginPattern("*");
 

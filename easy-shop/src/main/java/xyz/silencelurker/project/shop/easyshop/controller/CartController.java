@@ -20,8 +20,7 @@ import static xyz.silencelurker.project.shop.easyshop.utils.TokenUtil.*;
 /**
  * @author Silence_Lurker
  */
-
-@CrossOrigin
+@CrossOrigin(originPatterns = "*", allowCredentials = "true")
 @ApiResponses
 @RequestMapping("/cart")
 @RestController

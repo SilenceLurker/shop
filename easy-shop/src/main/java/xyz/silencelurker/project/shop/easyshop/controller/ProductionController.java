@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -27,7 +28,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 /**
  * @author Silence_Lurker
  */
-
+@CrossOrigin(originPatterns = "*", allowCredentials = "true")
 @ApiResponses
 @RequestMapping("/production")
 @RestController

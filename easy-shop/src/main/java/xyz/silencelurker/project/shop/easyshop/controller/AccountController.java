@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 
 @Log4j2
-@CrossOrigin(allowedHeaders = {})
+@CrossOrigin(originPatterns = "*", allowCredentials = "true")
 @ApiResponses
 @RequestMapping("/account")
 @RestController

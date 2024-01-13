@@ -26,7 +26,7 @@ import static xyz.silencelurker.project.shop.easyshop.utils.TokenUtil.*;
  */
 
 @ApiResponses
-@CrossOrigin
+@CrossOrigin(originPatterns = "*", allowCredentials = "true")
 @RequestMapping("/user")
 @RestController
 public class UserController {
