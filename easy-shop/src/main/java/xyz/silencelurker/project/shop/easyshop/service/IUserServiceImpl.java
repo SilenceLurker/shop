@@ -41,39 +41,19 @@ public class IUserServiceImpl implements IUserService {
 
     @Override
     public User loginByName(String name, String password) {
-        var user = new User();
-        user.setName(name);
-        user.setPassword(password);
-        Example<User> example = Example.of(user, ExampleMatcher.matching().withIgnoreCase("id","email").withIgnoreNullValues());
 
-        var info = userRepository.findAll(example);
-
-        return info.get(0);
+        return userRepository.findByPasswordAndName(password, name).get(0);
 
     }
 
     @Override
     public User loginById(String id, String password) {
-        var user = new User();
-        user.setAccountId(Integer.parseInt(id));
-        user.setPassword(password);
-        Example<User> example = Example.of(user, ExampleMatcher.matching().withIgnoreCase("name","email").withIgnoreNullValues());
-
-        var info = userRepository.findAll(example);
-
-        return info.get(0);
+        return userRepository.findByPasswordAndAccountId(password, Integer.parseInt(id));
     }
 
     @Override
     public User loginByEmail(String email, String password) {
-        var user = new User();
-        user.setEmail(email);
-        user.setPassword(password);
-        Example<User> example = Example.of(user, ExampleMatcher.matching().withIgnoreCase("id","name").withIgnoreNullValues());
-
-        var info = userRepository.findAll(example);
-
-        return info.get(0);
+        return userRepository.findByPasswordAndEmail(password, email).get(0);
     }
 
     @Override
