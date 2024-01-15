@@ -26,7 +26,7 @@ import static xyz.silencelurker.project.shop.easyshop.utils.TokenUtil.*;
  */
 
 @ApiResponses
-@CrossOrigin
+@CrossOrigin(originPatterns = "*", allowCredentials = "true")
 @RequestMapping("/user")
 @RestController
 public class UserController {
@@ -38,10 +38,14 @@ public class UserController {
     private StringRedisTemplate template;
 
     @Data
-    private class UserInfo {
+    public static  class UserInfo {
         private String nickname;
         private String info;
         private boolean sex;
+
+        public UserInfo(){
+            super();
+        }
     }
 
     @PostMapping("/info")

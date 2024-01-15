@@ -1,11 +1,12 @@
 package xyz.silencelurker.project.shop.easyshop.controller;
 
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.annotation.Resource;
 import lombok.Data;
+import lombok.extern.log4j.Log4j2;
 import xyz.silencelurker.project.shop.easyshop.entity.Brand;
 import xyz.silencelurker.project.shop.easyshop.entity.Color;
 import xyz.silencelurker.project.shop.easyshop.entity.Production;
@@ -22,25 +23,35 @@ import xyz.silencelurker.project.shop.easyshop.service.ISupporterService;
 import xyz.silencelurker.project.shop.easyshop.service.ISystemTypeService;
 import xyz.silencelurker.project.shop.easyshop.service.ITypeService;
 
+import org.apache.catalina.connector.Response;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 import static xyz.silencelurker.project.shop.easyshop.utils.MemoryAndDiskUtil.*;
+import static xyz.silencelurker.project.shop.easyshop.utils.TokenUtil.decodeToken;
 
 /**
  * @author Silence_Lurker
  */
-
+@Log4j2
 @ApiResponses
-@CrossOrigin
+@CrossOrigin(originPatterns = "*", allowCredentials = "true")
 @RestController
 @RequestMapping("/supporter")
 public class SupporterController {
@@ -53,22 +64,94 @@ public class SupporterController {
     @Resource
     private IProductionService productionService;
 
+    @Data
+    public static class TempSupporter{
+        Integer accountId;
+        String password;
+        String name;
+        String logo;
+        String info;
+        String email;
+        String unitName;
+        String unitAddress;
+
+        public TempSupporter(){
+            super();
+        }
+    }
+
+    public static final String  SUPPORTER_FILE_LOCATION = "./supporterLogo";
+
     @PostMapping("/enable")
-    public ResponseEntity<?> enable(@RequestBody Supporter supporter) {
-        var info = new SupporterInfo();
-        info.setAccountId(supporter.getAccountId());
-        info.setSupporter(true);
+    public ResponseEntity<?> enable(@RequestBody TempSupporter tempSupporter,@CookieValue(required = false) String token
+    // , MultipartFile logoFile
+    ) throws IOException {
 
-        supporterInfoService.registerSupporterInfo(info);
+        var dir = new File(SUPPORTER_FILE_LOCATION);
 
+        if(!dir.exists()){
+            dir.mkdirs();
+        }
+
+        var supporter = new Supporter();
+        var accountId = Integer.parseInt(decodeToken(token).get("id"));
         var brand = new Brand();
-        brand.setName(supporter.getUnitName());
+
+        brand.setId(accountId);
+        brand.setName(tempSupporter.getName());
+
+        brandService.save(brand);
+
+        supporter.setAccountId(accountId);
+        supporter.setPassword(tempSupporter.getPassword());
+        supporter.setName(tempSupporter.getPassword());
+        supporter.setInfo(tempSupporter.getInfo());
         supporter.setBrand(brand);
+        supporter.setEmail(tempSupporter.getEmail());
+        supporter.setUnitAddress(tempSupporter.getUnitAddress());
+        supporter.setUnitName(tempSupporter.getUnitName());
+
+        log.info(tempSupporter);
+
+        if(tempSupporter.getLogo().contains("http")){
+            supporter.setLogo(tempSupporter.getLogo());
+            
+            supporterService.enableSupporterAccount(supporter);
+            
+            return ResponseEntity.ok().build();
+        }
+
+        // var file = new  File(SUPPORTER_FILE_LOCATION,accountId + logoFile.getOriginalFilename());
+        // tempSupporter.setLogo(accountId + logoFile.getOriginalFilename());
+
+        // if(!file.exists()){
+        //     file.createNewFile();
+        // }
+
+        // FileOutputStream fos = new FileOutputStream(file);
+
+        // fos.write(logoFile.getBytes());
+
+        // fos.close();;
+
+        // supporter.setLogo(accountId + logoFile.getOriginalFilename());
 
         supporterService.enableSupporterAccount(supporter);
 
         return ResponseEntity.ok().build();
 
+    }
+
+    @GetMapping("/logoFile")
+    public ResponseEntity<?> getLogoFile(@CookieValue String token, String logo, @RequestParam(required = false) Integer accountId){
+
+        var file = new FileSystemResource(SUPPORTER_FILE_LOCATION + accountId + logo);
+
+        if(!file.exists()){
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(file);
     }
 
     @GetMapping("/supporterCheck")
