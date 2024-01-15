@@ -1,5 +1,6 @@
 {
     "java.compile.nullAnalysis.mode": "automatic",
     "java.configuration.updateBuildConfiguration": "automatic",
-    "cmake.configureOnOpen": false
+    "cmake.configureOnOpen": false,
+    "java.debug.settings.onBuildFailureProceed": true
 }

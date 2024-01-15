@@ -57,9 +57,9 @@ public enum Type {
     }
 
     public static Type getTypeByName(String name){
-        if(name.equals(OfficialFlipMachine.name())){
+        if(name.strip().equals(OfficialFlipMachine.name())){
             return OfficialFlipMachine;
-        }else if(name.equals(OfficialMachine.name())){
+        }else if(name.strip().equals(OfficialMachine.name())){
             return OfficialMachine;
         }else{
             return OfficialSecondHand;

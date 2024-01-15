@@ -8,12 +8,14 @@ import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;
+import lombok.extern.log4j.Log4j2;
 import xyz.silencelurker.project.shop.easyshop.entity.Brand;
 import xyz.silencelurker.project.shop.easyshop.repository.BrandRepository;
 
 /**
  * @author Silence_Lurker
  */
+@Log4j2
 @Service
 public class IBrandServiceImpl implements IBrandService {
     @Resource
@@ -24,8 +26,10 @@ public class IBrandServiceImpl implements IBrandService {
         var brand = new Brand();
         brand.setName(name);
 
-        return brandRepository.findOne(Example.of(brand, ExampleMatcher.matching().withIgnoreNullValues()
-                .withMatcher("name", GenericPropertyMatchers.contains()))).get();
+        log.info(brand);
+
+        return brandRepository.findAll(Example.of(brand, ExampleMatcher.matching().withIgnoreNullValues()
+                .withMatcher("name", GenericPropertyMatchers.contains()))).get(0);
     }
 
     @Override

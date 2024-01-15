@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.annotation.Resource;
+import lombok.extern.log4j.Log4j2;
 import xyz.silencelurker.project.shop.easyshop.entity.Cart;
 import xyz.silencelurker.project.shop.easyshop.service.ICartService;
 
@@ -20,6 +21,7 @@ import static xyz.silencelurker.project.shop.easyshop.utils.TokenUtil.*;
 /**
  * @author Silence_Lurker
  */
+@Log4j2
 @CrossOrigin(originPatterns = "*", allowCredentials = "true")
 @ApiResponses
 @RequestMapping("/cart")
@@ -58,6 +60,8 @@ public class CartController {
 
     @PostMapping("/addProductions")
     public ResponseEntity<?> addProductions(String id, Long itemId, short count) {
+        log.info(id);
+        
         cartService.addProduction(id, itemId, count);
 
         return ResponseEntity.ok().build();

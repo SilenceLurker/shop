@@ -201,7 +201,7 @@ public class AccountController {
                 cokie.setPath("/");
                 cokie.setSecure(true);
                 cokie.setAttribute("SameSite", "None");
-                cokie.setHttpOnly(true);
+                
                 
 
                 response.addCookie(cokie);
