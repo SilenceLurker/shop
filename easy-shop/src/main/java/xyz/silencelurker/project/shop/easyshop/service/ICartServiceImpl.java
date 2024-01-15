@@ -91,7 +91,11 @@ public class ICartServiceImpl implements ICartService {
         while(it.hasNext()){
             var item = it.next();
 
-            res.put(JSON, null)
+            try {
+                res.put(new ObjectMapper().writeValueAsString(item.getKey()), item.getValue());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         return res;
