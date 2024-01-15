@@ -2,11 +2,12 @@ package xyz.silencelurker.project.shop.easyshop.service;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;
+import lombok.extern.log4j.Log4j2;
 import xyz.silencelurker.project.shop.easyshop.entity.Supporter;
-import xyz.silencelurker.project.shop.easyshop.entity.SupporterInfo;
 import xyz.silencelurker.project.shop.easyshop.repository.SupporterInfoRepository;
 import xyz.silencelurker.project.shop.easyshop.repository.SupporterRepository;
 
@@ -16,6 +17,8 @@ import static xyz.silencelurker.project.shop.easyshop.utils.TokenUtil.*;
  * @author Silence_Lurker
  */
 
+
+ @Log4j2
 @Service
 public class ISupporterServiceImpl implements ISupporterService {
 
@@ -69,7 +72,7 @@ public class ISupporterServiceImpl implements ISupporterService {
         var email = map.get("email");
         var supporter = new Supporter();
         supporter.setEmail(email);
-        var example = Example.of(supporter, ExampleMatcher.matching().withIgnoreNullValues());
+        var example = Example.of(supporter, ExampleMatcher.matching().withIgnoreNullValues().withMatcher("email", GenericPropertyMatchers.caseSensitive()).withIgnorePaths("accountId"));
 
         if (supporterRepository.findOne(example).isEmpty()) {
             return null;

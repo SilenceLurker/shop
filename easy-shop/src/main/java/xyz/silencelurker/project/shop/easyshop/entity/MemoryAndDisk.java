@@ -40,6 +40,6 @@ public class MemoryAndDisk {
         if (OTHER_MENORY.equals(memory)) {
             this.memory = OTHER_MENORY;
         }
-        this.memory = (short) (memory << MEMORY_MOVE);
+        this.memory = memory;
     }
 }

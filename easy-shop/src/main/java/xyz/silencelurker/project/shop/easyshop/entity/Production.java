@@ -18,7 +18,6 @@ public class Production {
      * WTF???
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Brand.class)
@@ -27,7 +26,6 @@ public class Production {
     private Color color;
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = SystemType.class)
     private SystemType system;
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Type.class)
     private Type type;
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = MemoryAndDisk.class)
     private MemoryAndDisk memoryAndDisk;

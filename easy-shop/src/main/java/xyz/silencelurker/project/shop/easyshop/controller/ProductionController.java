@@ -7,10 +7,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.annotation.Resource;
 import xyz.silencelurker.project.shop.easyshop.entity.Production;
 import xyz.silencelurker.project.shop.easyshop.entity.SystemType;
+import xyz.silencelurker.project.shop.easyshop.entity.Type;
 import xyz.silencelurker.project.shop.easyshop.service.IBrandService;
 import xyz.silencelurker.project.shop.easyshop.service.IProductionService;
 import xyz.silencelurker.project.shop.easyshop.service.ISystemTypeService;
-import xyz.silencelurker.project.shop.easyshop.service.ITypeService;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -57,8 +57,6 @@ public class ProductionController {
     @Resource
     private IBrandService brandService;
     @Resource
-    private ITypeService typeService;
-    @Resource
     private ISystemTypeService systemTypeService;
 
     @PostMapping("/selectProductions")
@@ -70,7 +68,7 @@ public class ProductionController {
         var macher = ExampleMatcher.matching().withIgnoreNullValues();
 
         var brandEntity = brandService.getBrandByName(brand);
-        var typeEntity = typeService.getTypeByName(type);
+        var typeEntity = Type.getTypeByName(type);
         var temp = new SystemType();
         temp.setType(system);
         var systemEntity = systemTypeService

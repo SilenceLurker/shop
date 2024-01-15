@@ -13,6 +13,7 @@ import xyz.silencelurker.project.shop.easyshop.entity.Color;
 import xyz.silencelurker.project.shop.easyshop.entity.Production;
 import xyz.silencelurker.project.shop.easyshop.entity.Supporter;
 import xyz.silencelurker.project.shop.easyshop.entity.SystemType;
+import xyz.silencelurker.project.shop.easyshop.entity.Type;
 import xyz.silencelurker.project.shop.easyshop.service.IBrandService;
 import xyz.silencelurker.project.shop.easyshop.service.IColorService;
 import xyz.silencelurker.project.shop.easyshop.service.IMemoryAndDiskService;
@@ -21,7 +22,7 @@ import xyz.silencelurker.project.shop.easyshop.service.IRecommendationService;
 import xyz.silencelurker.project.shop.easyshop.service.ISupporterInfoService;
 import xyz.silencelurker.project.shop.easyshop.service.ISupporterService;
 import xyz.silencelurker.project.shop.easyshop.service.ISystemTypeService;
-import xyz.silencelurker.project.shop.easyshop.service.ITypeService;
+import xyz.silencelurker.project.shop.easyshop.utils.ProductionUtil;
 
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.data.domain.Example;
@@ -240,9 +241,14 @@ public class SupporterController {
     @GetMapping("/initSubId")
     public ResponseEntity<?> getSubId(@CookieValue String token) {
 
+
+
         var supporter = supporterService.supporterLoginIn(token);
+        log.info(supporter);
         Brand brand = supporter.getBrand();
+        log.info(brand);
         var newPro = new Production();
+        log.info(newPro);
         newPro.setBrand(brand);
         var subId = productionService
                 .getAllByExample(Example.of(newPro, ExampleMatcher.matching().withIgnoreNullValues())).size();
@@ -254,15 +260,15 @@ public class SupporterController {
     }
 
     @PostMapping("/addNewColor")
-    public ResponseEntity<?> addNewColorWithProduction(int subId, @RequestBody Color color, @CookieValue String token) {
+    public ResponseEntity<?> addNewColorWithProduction(@RequestParam int subId, @RequestBody Color color, @CookieValue String token) {
 
         var supporter = supporterService.supporterLoginIn(token);
 
         color.setId(((color.getId() << 12) | (subId | (supporter.getBrand().getId() << 17))));
 
-        colorService.createNewColor(color.getId(), color.getName(), color.getImage());
+        var colorInfo = colorService.createNewColor(color.getId(), color.getName(), color.getImage());
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(colorInfo);
     }
 
     @Resource
@@ -279,9 +285,6 @@ public class SupporterController {
 
         return ResponseEntity.ok().body("sussess!");
     }
-
-    @Resource
-    private ITypeService typeService;
 
     @PostMapping("/createProduction")
     public ResponseEntity<?> createProduction(@RequestBody TargetProduction production, @CookieValue String token) {
@@ -301,16 +304,24 @@ public class SupporterController {
                         .get(0));
         newPro.setEnable(production.enable);
         var mem = buildMemoryAndDisk(production.memoryAndDisk);
+
+        memoryAndDiskService.addMemoryAndDisk(mem);
+
         memoryAndDiskService.addMemoryAndDisk(mem);
         newPro.setMemoryAndDisk(mem);
         newPro.setName(production.name);
-        var type = typeService.getTypeByCode(production.type);
+        var type = Type.getTypeByCode((short) production.type);
+
+
+        log.info(type);
         newPro.setType(type);
         var systemType = new SystemType();
         systemType.setId((short) production.system);
         var systemTypeExample = Example.of(systemType, ExampleMatcher.matching().withIgnoreNullValues());
         newPro.setSystem(systemTypeService.getSystemType(systemTypeExample));
         newPro.setPrice(production.price);
+
+        newPro.setId(ProductionUtil.productionIdBuild(newPro));
 
         productionService.createProduction(newPro);
 

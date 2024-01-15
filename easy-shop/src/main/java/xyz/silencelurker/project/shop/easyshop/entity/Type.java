@@ -1,12 +1,16 @@
 package xyz.silencelurker.project.shop.easyshop.entity;
 
+import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Silence_Lurker
  */
-@Entity
+// @Embeddable
+// @Entity
 public enum Type {
     /**
      * 官方机
@@ -25,7 +29,11 @@ public enum Type {
     private short typeCode;
     private String type;
 
-    private Type(String type, short typeCode) {
+    Type(){
+        
+    }
+
+    Type(String type, short typeCode) {
         this.type = type;
         this.typeCode = typeCode;
     }
@@ -38,4 +46,24 @@ public enum Type {
         return typeCode;
     }
 
+    public static Type getTypeByCode(short code){
+        if(code == OfficialFlipMachine.typeCode){
+            return OfficialFlipMachine;
+        }else if(code == OfficialMachine.typeCode){
+            return OfficialMachine;
+        }else{
+            return OfficialSecondHand;
+        }
+    }
+
+    public static Type getTypeByName(String name){
+        if(name.equals(OfficialFlipMachine.name())){
+            return OfficialFlipMachine;
+        }else if(name.equals(OfficialMachine.name())){
+            return OfficialMachine;
+        }else{
+            return OfficialSecondHand;
+        }
+
+    }
 }
