@@ -1,6 +1,11 @@
 package xyz.silencelurker.project.shop.easyshop.entity;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreType;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,10 +25,11 @@ import lombok.Data;
  */
 @Data
 @Entity
-public class Brand {
+@JsonSerialize
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+public class Brand implements Serializable{
     @Id
     @Column(name = "brand_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(name = "brand_name")
     private String name;

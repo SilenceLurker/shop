@@ -1,6 +1,7 @@
 package xyz.silencelurker.project.shop.easyshop.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,6 +14,7 @@ import lombok.Data;
  */
 @Data
 @Entity
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class MemoryAndDisk {
     @Transient
     @JsonIgnore

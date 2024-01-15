@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;
+import lombok.extern.log4j.Log4j2;
 import xyz.silencelurker.project.shop.easyshop.entity.Production;
 import xyz.silencelurker.project.shop.easyshop.repository.ProductionRepository;
 import xyz.silencelurker.project.shop.easyshop.repository.SupporterRepository;
@@ -17,7 +18,7 @@ import xyz.silencelurker.project.shop.easyshop.repository.SupporterRepository;
 /**
  * @author Silence_Lurker
  */
-
+@Log4j2
 @Service
 public class IProductionServiceImpl implements IProductionService {
 
@@ -73,6 +74,8 @@ public class IProductionServiceImpl implements IProductionService {
 
     @Override
     public Page<Production> getAllProduction(Pageable pageable) {
+        log.info(pageable);
+        
         return productionRepository.findAll(pageable);
     }
 
