@@ -59,6 +59,6 @@ public interface ICartService {
      * @param cartId
      * @return
      */
-    Map<Production,Short> getProductionByCartId(String cartId);
+    List<Map.Entry<Production, Short>> getProductionByCartId(String cartId);
 
 }

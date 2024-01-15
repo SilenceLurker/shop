@@ -68,7 +68,7 @@ public class ICartServiceImpl implements ICartService {
     private ProductionRepository productionRepository;
 
     @Override
-    public Map<Production, Short> getProductionByCartId(String cartId) {
+    public List<Map.Entry<Production, Short>> getProductionByCartId(String cartId) {
         var cart = findById(cartId);
 
         var itemsInfo = cart.getItems();
@@ -82,7 +82,17 @@ public class ICartServiceImpl implements ICartService {
             result.put(productionRepository.findById(item).get(), itemsInfo.get(item));
         }
 
-        return result;
+        var it = result.entrySet().iterator();
+
+        var res = new ArrayList<Map.Entry<Production, Short>>();
+
+        while (it.hasNext()) {
+            var item = it.next();
+
+            res.add(item);
+        }
+
+        return res;
 
     }
 
