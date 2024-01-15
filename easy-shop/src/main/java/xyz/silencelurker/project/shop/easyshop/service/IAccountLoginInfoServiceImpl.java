@@ -1,5 +1,7 @@
 package xyz.silencelurker.project.shop.easyshop.service;
 
+import static xyz.silencelurker.project.shop.easyshop.utils.TokenUtil.decodeToken;
+
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -24,12 +26,10 @@ public class IAccountLoginInfoServiceImpl implements IAccountLoginInfoService {
      */
     @Override
     public Integer checkLogin(String token) {
-        var userId = redisTemplate.opsForValue().get(token);
-        if (userId == null || userId.isBlank()) {
-            return -1;
-        }
+        
+        var id =  decodeToken(token).get("id");
 
-        return Integer.parseInt(userId);
+        return Integer.parseInt(id);
 
     }
 

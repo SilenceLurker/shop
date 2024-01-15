@@ -38,10 +38,14 @@ public class UserController {
     private StringRedisTemplate template;
 
     @Data
-    private class UserInfo {
+    public static  class UserInfo {
         private String nickname;
         private String info;
         private boolean sex;
+
+        public UserInfo(){
+            super();
+        }
     }
 
     @PostMapping("/info")

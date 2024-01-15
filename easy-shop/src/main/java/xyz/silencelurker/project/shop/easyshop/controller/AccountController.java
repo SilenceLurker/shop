@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.annotation.Nullable;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Data;
 import lombok.extern.log4j.Log4j2;
@@ -14,6 +15,8 @@ import xyz.silencelurker.project.shop.easyshop.service.IUserService;
 
 import static xyz.silencelurker.project.shop.easyshop.utils.TokenUtil.*;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -96,7 +99,11 @@ public class AccountController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginUser userLoginInfo, HttpServletResponse response) {
+    public ResponseEntity<?> login(@RequestBody LoginUser userLoginInfo, HttpServletResponse response, HttpServletRequest req) throws UnsupportedEncodingException {
+
+        var domain = req.getHeader("Origin");
+
+        log.info(domain);
 
         var id = userLoginInfo.getId();
         var name = userLoginInfo.getName();
@@ -113,7 +120,6 @@ public class AccountController {
         userData.put("time", System.currentTimeMillis() + "");
 
         var token = buildToken(userData);
-        response.addCookie(new Cookie("SameSite", "None"));
 
         if (!userLoginInfo.getId().isEmpty() || userLoginInfo.id == null) {
             try {
@@ -126,9 +132,6 @@ public class AccountController {
 
                 token = buildToken(userData);
 
-                response.addCookie(new Cookie("token", token));
-
-                return ResponseEntity.ok().body(token);
             } catch (Exception e) {
                 log.info("user not found!");
                 return ResponseEntity.notFound().build();
@@ -144,9 +147,6 @@ public class AccountController {
 
                 token = buildToken(userData);
 
-                response.addCookie(new Cookie("token", token));
-
-                return ResponseEntity.ok().body(token);
             } catch (Exception e) {
                 log.info("user not found!");
                 return ResponseEntity.notFound().build();
@@ -162,9 +162,6 @@ public class AccountController {
 
                 token = buildToken(userData);
 
-                response.addCookie(new Cookie("token", token));
-
-                return ResponseEntity.ok().body(token);
             } catch (Exception e) {
                 log.info("user not found!");
                 return ResponseEntity.notFound().build();
@@ -172,6 +169,19 @@ public class AccountController {
         } else {
             return ResponseEntity.badRequest().build();
         }
+
+                var cokie = new Cookie("token", URLEncoder.encode(token, "utf-8"));
+                // cokie.setDomain(domain.replaceAll("http://","").replaceAll(":.*",""));
+                cokie.setMaxAge(60*24*60);
+                cokie.setPath("/");
+                cokie.setSecure(true);
+                cokie.setAttribute("SameSite", "None");
+                cokie.setHttpOnly(true);
+                
+
+                response.addCookie(cokie);
+
+                return ResponseEntity.ok().body(token);
     }
 
 }
