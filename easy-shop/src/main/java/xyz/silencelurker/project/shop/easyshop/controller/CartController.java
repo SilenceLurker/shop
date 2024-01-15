@@ -17,6 +17,7 @@ import xyz.silencelurker.project.shop.easyshop.service.ICartService;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import static xyz.silencelurker.project.shop.easyshop.utils.TokenUtil.*;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author Silence_Lurker
@@ -61,7 +62,7 @@ public class CartController {
     @PostMapping("/addProductions")
     public ResponseEntity<?> addProductions(String id, Long itemId, short count) {
         log.info(id);
-        
+
         cartService.addProduction(id, itemId, count);
 
         return ResponseEntity.ok().build();
@@ -77,4 +78,15 @@ public class CartController {
         }
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/cartItems")
+    public ResponseEntity<?> getCartItems(@RequestParam String cartId) {
+        return ResponseEntity.ok().body(cartService.findById(cartId));
+    }
+
+    @GetMapping("/cartItemList")
+    public ResponseEntity<?> getCartItemList(@RequestParam String cartId) {
+        return ResponseEntity.ok().body(cartService.getProductionByCartId(cartId));
+    }
+
 }

@@ -1,12 +1,17 @@
 package xyz.silencelurker.project.shop.easyshop.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;
 import xyz.silencelurker.project.shop.easyshop.entity.Cart;
+import xyz.silencelurker.project.shop.easyshop.entity.Production;
 import xyz.silencelurker.project.shop.easyshop.repository.CartRepository;
+import xyz.silencelurker.project.shop.easyshop.repository.ProductionRepository;
 
 /**
  * @author Silence_Lurker
@@ -52,6 +57,33 @@ public class ICartServiceImpl implements ICartService {
     @Override
     public List<Cart> getAllCart(int accountId) {
         return cartRepository.findAll();
+    }
+
+    @Override
+    public Cart findById(String id) {
+        return cartRepository.findById(id).get();
+    }
+
+    @Resource
+    private ProductionRepository productionRepository;
+
+    @Override
+    public Map<Production, Short> getProductionByCartId(String cartId) {
+        var cart = findById(cartId);
+
+        var itemsInfo = cart.getItems();
+        var itemList = itemsInfo.keySet().iterator();
+
+        var result = new HashMap<Production, Short>();
+
+        while (itemList.hasNext()) {
+            var item = itemList.next();
+
+            result.put(productionRepository.findById(item).get(), itemsInfo.get(item));
+        }
+
+        return result;
+
     }
 
 }
