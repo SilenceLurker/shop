@@ -71,10 +71,14 @@ public class UserController {
     }
 
     @Data
-    private class EmailUpdateInfo {
+    public static class EmailUpdateInfo {
         private int accountId;
         private String code;
         private String newEmail;
+
+        public EmailUpdateInfo(){
+            super();
+        }
     }
 
     @GetMapping("/emailUpdate/confirm")
