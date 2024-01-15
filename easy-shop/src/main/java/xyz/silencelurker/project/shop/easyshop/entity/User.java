@@ -15,6 +15,5 @@ public class User extends BaseAccountLoginInfo {
     private String nickName;
     private String info;
     private boolean sex;
-    private String email;
 
 }

@@ -16,5 +16,6 @@ public abstract class BaseAccountLoginInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int accountId;
     String password;
+    String email;
 
 }

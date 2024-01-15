@@ -9,6 +9,9 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Data;
 import lombok.extern.log4j.Log4j2;
+import xyz.silencelurker.project.shop.easyshop.entity.BaseAccountLoginInfo;
+import xyz.silencelurker.project.shop.easyshop.entity.Supporter;
+import xyz.silencelurker.project.shop.easyshop.entity.User;
 import xyz.silencelurker.project.shop.easyshop.service.IAccountLoginInfoService;
 import xyz.silencelurker.project.shop.easyshop.service.IUserService;
 
@@ -18,7 +21,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -81,6 +85,27 @@ public class AccountController {
         data.put("data", "Already Sent a confirm email to your email address.");
 
         return ResponseEntity.ok().body(data);
+    }
+
+    @GetMapping("/checkRegister")
+    public ResponseEntity<?> checkRegister(String email) {
+        User user = new User();
+        user.setEmail(email);
+        var target = accountLoginInfoService.checkByExample(user);
+
+        if (target != null) {
+            return ResponseEntity.ok().build();
+        }
+
+        Supporter supporter = new Supporter();
+        supporter.setEmail(email);
+        target = accountLoginInfoService.checkByExample(supporter);
+
+        if (target != null) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
+
     }
 
     @GetMapping("/confirm")

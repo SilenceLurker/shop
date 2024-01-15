@@ -15,7 +15,6 @@ public class Supporter extends BaseAccountLoginInfo {
     private String name;
     private String logo;
     private String info;
-    private String email;
     @OneToOne
     private Brand brand;
     private String unitName;
