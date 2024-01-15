@@ -65,7 +65,7 @@ public class SupporterController {
     private IProductionService productionService;
 
     @Data
-    public static class TempSupporter{
+    public static class TempSupporter {
         Integer accountId;
         String password;
         String name;
@@ -75,21 +75,22 @@ public class SupporterController {
         String unitName;
         String unitAddress;
 
-        public TempSupporter(){
+        public TempSupporter() {
             super();
         }
     }
 
-    public static final String  SUPPORTER_FILE_LOCATION = "./supporterLogo";
+    public static final String SUPPORTER_FILE_LOCATION = "./supporterLogo";
 
     @PostMapping("/enable")
-    public ResponseEntity<?> enable(@RequestBody TempSupporter tempSupporter,@CookieValue(required = false) String token
+    public ResponseEntity<?> enable(@RequestBody TempSupporter tempSupporter,
+            @CookieValue(required = false) String token
     // , MultipartFile logoFile
     ) throws IOException {
 
         var dir = new File(SUPPORTER_FILE_LOCATION);
 
-        if(!dir.exists()){
+        if (!dir.exists()) {
             dir.mkdirs();
         }
 
@@ -113,19 +114,20 @@ public class SupporterController {
 
         log.info(tempSupporter);
 
-        if(tempSupporter.getLogo().contains("http")){
+        if (tempSupporter.getLogo().contains("http")) {
             supporter.setLogo(tempSupporter.getLogo());
-            
+
             supporterService.enableSupporterAccount(supporter);
-            
+
             return ResponseEntity.ok().build();
         }
 
-        // var file = new  File(SUPPORTER_FILE_LOCATION,accountId + logoFile.getOriginalFilename());
+        // var file = new File(SUPPORTER_FILE_LOCATION,accountId +
+        // logoFile.getOriginalFilename());
         // tempSupporter.setLogo(accountId + logoFile.getOriginalFilename());
 
         // if(!file.exists()){
-        //     file.createNewFile();
+        // file.createNewFile();
         // }
 
         // FileOutputStream fos = new FileOutputStream(file);
@@ -143,11 +145,12 @@ public class SupporterController {
     }
 
     @GetMapping("/logoFile")
-    public ResponseEntity<?> getLogoFile(@CookieValue String token, String logo, @RequestParam(required = false) Integer accountId){
+    public ResponseEntity<?> getLogoFile(@CookieValue String token, String logo,
+            @RequestParam(required = false) Integer accountId) {
 
         var file = new FileSystemResource(SUPPORTER_FILE_LOCATION + accountId + logo);
 
-        if(!file.exists()){
+        if (!file.exists()) {
             return ResponseEntity.notFound().build();
         }
 
@@ -174,10 +177,14 @@ public class SupporterController {
     }
 
     @Data
-    private class Recommendations {
+    public static class Recommendations {
         private int id;
         private List<Long> productions;
         private String logo;
+
+        public Recommendations() {
+            super();
+        }
     }
 
     @PostMapping("/setRecommendations")
@@ -189,7 +196,8 @@ public class SupporterController {
         return ResponseEntity.ok().build();
     }
 
-    public class TargetProduction {
+    @Data
+    public static class TargetProduction {
         int subId;
         String name;
         int brand;
@@ -199,6 +207,10 @@ public class SupporterController {
         boolean enable;
         int memoryAndDisk;
         double price;
+
+        public TargetProduction() {
+            super();
+        }
     }
 
     @Resource

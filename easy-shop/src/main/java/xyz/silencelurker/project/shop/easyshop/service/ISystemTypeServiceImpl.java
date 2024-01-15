@@ -17,14 +17,12 @@ public class ISystemTypeServiceImpl implements ISystemTypeService {
 
     @Override
     public void addNewSystemType(SystemType newSystemType) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addNewSystemType'");
+        systemTypeRepository.save(newSystemType);
     }
 
     @Override
     public SystemType getSystemType(Example<SystemType> example) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getSystemType'");
+        return systemTypeRepository.findAll(example).get(0);
     }
 
 }
