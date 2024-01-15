@@ -6,13 +6,9 @@ import java.util.concurrent.TimeUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
-import org.springframework.data.domain.ExampleMatcher.MatcherConfigurer;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import jakarta.servlet.http.Cookie;
 import xyz.silencelurker.project.shop.easyshop.entity.User;
 import xyz.silencelurker.project.shop.easyshop.repository.UserRepository;
 
@@ -39,7 +35,8 @@ public class IUserServiceImpl implements IUserService {
 
         user = userRepository.findAll(Example.of(user, ExampleMatcher.matching().withIgnoreNullValues())).get(0);
 
-        template.opsForValue().set(user.getAccountId() + "", mailSenderService.confirmEmailSend(email), 300,TimeUnit.SECONDS);
+        template.opsForValue().set(user.getAccountId() + "", mailSenderService.confirmEmailSend(email), 300,
+                TimeUnit.SECONDS);
 
         return user.getAccountId() + "";
     }

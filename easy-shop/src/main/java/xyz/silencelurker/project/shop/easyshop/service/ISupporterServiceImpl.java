@@ -66,16 +66,16 @@ public class ISupporterServiceImpl implements ISupporterService {
     @Override
     public Supporter supporterLoginIn(String cookie) {
         var map = decodeToken(cookie);
-        var targetId = map.get("id");
-        var supporterInfo = new SupporterInfo();
-        supporterInfo.setAccountId(Integer.parseInt(targetId));
-        var example = Example.of(supporterInfo, ExampleMatcher.matching().withIgnoreNullValues());
+        var email = map.get("email");
+        var supporter = new Supporter();
+        supporter.setEmail(email);
+        var example = Example.of(supporter, ExampleMatcher.matching().withIgnoreNullValues());
 
-        if (supporterInfoRepository.findOne(example).isEmpty()) {
+        if (supporterRepository.findOne(example).isEmpty()) {
             return null;
         }
 
-        return supporterRepository.findById(Integer.parseInt(targetId)).get();
+        return supporterRepository.findAll(example).get(0);
 
     }
 

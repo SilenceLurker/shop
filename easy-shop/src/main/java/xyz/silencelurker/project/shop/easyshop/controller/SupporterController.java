@@ -1,17 +1,17 @@
 package xyz.silencelurker.project.shop.easyshop.controller;
 
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.Data;
 import lombok.extern.log4j.Log4j2;
 import xyz.silencelurker.project.shop.easyshop.entity.Brand;
 import xyz.silencelurker.project.shop.easyshop.entity.Color;
 import xyz.silencelurker.project.shop.easyshop.entity.Production;
 import xyz.silencelurker.project.shop.easyshop.entity.Supporter;
-import xyz.silencelurker.project.shop.easyshop.entity.SupporterInfo;
 import xyz.silencelurker.project.shop.easyshop.entity.SystemType;
 import xyz.silencelurker.project.shop.easyshop.service.IBrandService;
 import xyz.silencelurker.project.shop.easyshop.service.IColorService;
@@ -23,7 +23,6 @@ import xyz.silencelurker.project.shop.easyshop.service.ISupporterService;
 import xyz.silencelurker.project.shop.easyshop.service.ISystemTypeService;
 import xyz.silencelurker.project.shop.easyshop.service.ITypeService;
 
-import org.apache.catalina.connector.Response;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -36,14 +35,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
 import static xyz.silencelurker.project.shop.easyshop.utils.MemoryAndDiskUtil.*;
+import static xyz.silencelurker.project.shop.easyshop.utils.TokenUtil.buildToken;
 import static xyz.silencelurker.project.shop.easyshop.utils.TokenUtil.decodeToken;
 
 /**
@@ -84,7 +82,8 @@ public class SupporterController {
 
     @PostMapping("/enable")
     public ResponseEntity<?> enable(@RequestBody TempSupporter tempSupporter,
-            @CookieValue(required = false) String token
+            @CookieValue(required = false) String token,
+            HttpServletResponse resp
     // , MultipartFile logoFile
     ) throws IOException {
 
@@ -117,6 +116,20 @@ public class SupporterController {
         if (tempSupporter.getLogo().contains("http")) {
             supporter.setLogo(tempSupporter.getLogo());
 
+            var tokenInfo = decodeToken(token);
+            tokenInfo.put("enableSupporter", "true");
+            token = buildToken(tokenInfo);
+
+            var cookieToken = new Cookie("token", token);
+
+            cookieToken.setMaxAge(60 * 24 * 60);
+            cookieToken.setPath("/");
+            cookieToken.setSecure(true);
+            cookieToken.setAttribute("SameSite", "None");
+            cookieToken.setHttpOnly(true);
+
+            resp.addCookie(cookieToken);
+
             supporterService.enableSupporterAccount(supporter);
 
             return ResponseEntity.ok().build();
@@ -137,6 +150,10 @@ public class SupporterController {
         // fos.close();;
 
         // supporter.setLogo(accountId + logoFile.getOriginalFilename());
+
+        var tokenInfo = decodeToken(token);
+        tokenInfo.put("enableSupporter", "true");
+        token = buildToken(tokenInfo);
 
         supporterService.enableSupporterAccount(supporter);
 
