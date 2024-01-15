@@ -38,12 +38,12 @@ public class UserController {
     private StringRedisTemplate template;
 
     @Data
-    public static  class UserInfo {
+    public static class UserInfo {
         private String nickname;
         private String info;
         private boolean sex;
 
-        public UserInfo(){
+        public UserInfo() {
             super();
         }
     }
@@ -61,7 +61,7 @@ public class UserController {
 
         userService.updateInfo(user);
 
-        return ResponseEntity.badRequest().body(user);
+        return ResponseEntity.ok().body(user);
     }
 
     @PostMapping("/emailUpdate")

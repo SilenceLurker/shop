@@ -18,6 +18,11 @@ public class ISupporterInfoServiceImpl implements ISupporterInfoService {
 
     @Override
     public void registerSupporterInfo(SupporterInfo newInfo) {
+
+        if (newInfo == null) {
+            return;
+        }
+
         supporterInfoRepository.save(newInfo);
     }
 

@@ -7,6 +7,7 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;
+import lombok.NonNull;
 import xyz.silencelurker.project.shop.easyshop.entity.SendInfo;
 import xyz.silencelurker.project.shop.easyshop.repository.SendInfoRepository;
 
@@ -21,6 +22,11 @@ public class ISendInfoServiceImpl implements ISendInfoService {
 
     @Override
     public boolean createNewSendInfo(SendInfo newInfo) {
+
+        if (newInfo == null) {
+            return false;
+        }
+
         try {
             sendInfoRepository.save(newInfo);
         } catch (Exception e) {
@@ -40,7 +46,7 @@ public class ISendInfoServiceImpl implements ISendInfoService {
     }
 
     @Override
-    public SendInfo deleteSendInfoById(String id) {
+    public SendInfo deleteSendInfoById(@NonNull String id) {
         var info = sendInfoRepository.findById(id);
 
         try {

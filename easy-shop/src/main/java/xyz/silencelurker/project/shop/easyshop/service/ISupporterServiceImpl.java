@@ -26,6 +26,10 @@ public class ISupporterServiceImpl implements ISupporterService {
 
     @Override
     public void enableSupporterAccount(Supporter supporter) {
+        if (supporter == null) {
+            return;
+        }
+
         supporterRepository.save(supporter);
     }
 
