@@ -7,8 +7,6 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import jakarta.annotation.Resource;
 import xyz.silencelurker.project.shop.easyshop.entity.Cart;
 import xyz.silencelurker.project.shop.easyshop.entity.Production;
@@ -70,7 +68,7 @@ public class ICartServiceImpl implements ICartService {
     private ProductionRepository productionRepository;
 
     @Override
-    public Map<String, Short> getProductionByCartId(String cartId) {
+    public Map<Production, Short> getProductionByCartId(String cartId) {
         var cart = findById(cartId);
 
         var itemsInfo = cart.getItems();
@@ -84,21 +82,7 @@ public class ICartServiceImpl implements ICartService {
             result.put(productionRepository.findById(item).get(), itemsInfo.get(item));
         }
 
-        var res = new HashMap<String, Short>();
-
-        var it = result.entrySet().iterator();
-
-        while(it.hasNext()){
-            var item = it.next();
-
-            try {
-                res.put(new ObjectMapper().writeValueAsString(item.getKey()), item.getValue());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        return res;
+        return result;
 
     }
 
