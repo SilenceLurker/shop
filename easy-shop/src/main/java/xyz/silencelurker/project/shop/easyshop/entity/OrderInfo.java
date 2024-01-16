@@ -19,6 +19,7 @@ public class OrderInfo {
     @UuidGenerator
     private String id;
     private Integer accountId;
+    @ElementCollection
+    private Map<Long, Short> items;
     private String sendInfoId;
-    private SavedItems items;
 }
