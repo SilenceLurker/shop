@@ -10,13 +10,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.annotation.Resource;
+import lombok.Data;
 import lombok.extern.log4j.Log4j2;
 import xyz.silencelurker.project.shop.easyshop.entity.Cart;
+import xyz.silencelurker.project.shop.easyshop.entity.Production;
 import xyz.silencelurker.project.shop.easyshop.service.ICartService;
 
 import org.springframework.web.bind.annotation.PostMapping;
 
 import static xyz.silencelurker.project.shop.easyshop.utils.TokenUtil.*;
+
+import java.util.ArrayList;
+
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -84,9 +89,36 @@ public class CartController {
         return ResponseEntity.ok().body(cartService.findById(cartId));
     }
 
+    @Data
+    public static class ResultProduction{
+        Production production;
+        Short number;
+
+        public ResultProduction(){
+            super();
+        }
+    }
+
+
     @GetMapping("/cartItemList")
     public ResponseEntity<?> getCartItemList(@RequestParam String cartId) {
-        return ResponseEntity.ok().body(cartService.getProductionByCartId(cartId));
+        var items =  cartService.getProductionByCartId(cartId);
+
+        var it = items.entrySet().iterator();
+
+        var result = new ArrayList<ResultProduction>();
+
+        while(it.hasNext()){
+            var item = it.next();
+
+            var res = new ResultProduction();
+            res.number = item.getValue();
+            res.production = item.getKey();
+            
+            result.add(res);
+        }
+
+        return ResponseEntity.ok().body(result);
     }
 
 }
