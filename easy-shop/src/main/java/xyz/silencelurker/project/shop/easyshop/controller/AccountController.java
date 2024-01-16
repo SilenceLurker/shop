@@ -10,7 +10,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Data;
 import lombok.extern.log4j.Log4j2;
-import xyz.silencelurker.project.shop.easyshop.entity.BaseAccountLoginInfo;
 import xyz.silencelurker.project.shop.easyshop.entity.Supporter;
 import xyz.silencelurker.project.shop.easyshop.entity.User;
 import xyz.silencelurker.project.shop.easyshop.service.IAccountLoginInfoService;
@@ -24,8 +23,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -112,7 +109,8 @@ public class AccountController {
     }
 
     @GetMapping("/confirm")
-    public ResponseEntity<?> confirm(@RequestParam String id, @RequestParam String passwd) {
+    public ResponseEntity<?> confirm(@RequestParam(required = true, defaultValue = "") String id,
+            @RequestParam String passwd) {
 
         var checkCode = template.opsForValue().get(id);
 
@@ -124,39 +122,28 @@ public class AccountController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginUser userLoginInfo, HttpServletResponse response, HttpServletRequest req) throws UnsupportedEncodingException {
-
+    public ResponseEntity<?> login(@RequestBody LoginUser userLoginInfo, HttpServletResponse response,
+            HttpServletRequest req) throws UnsupportedEncodingException {
         var domain = req.getHeader("Origin");
-
         log.info(domain);
-
         var id = userLoginInfo.getId();
         var name = userLoginInfo.getName();
         var email = userLoginInfo.getEmail();
         var passwd = userLoginInfo.getPassword();
-
         log.info(id + name + email + passwd);
-
         var userData = new HashMap<String, String>(5);
-
         userData.put("id", id);
         userData.put("name", name);
         userData.put("email", email);
         userData.put("time", System.currentTimeMillis() + "");
-
         var token = buildToken(userData);
-
         if (!userLoginInfo.getId().isEmpty() || userLoginInfo.id == null) {
             try {
                 log.info("Login by id");
-
                 var user = userService.loginById(id, passwd);
-
                 userData.put("name", user.getName());
                 userData.put("email", user.getEmail());
-
                 token = buildToken(userData);
-
             } catch (Exception e) {
                 log.info("user not found!");
                 return ResponseEntity.notFound().build();
@@ -164,14 +151,10 @@ public class AccountController {
         } else if (!userLoginInfo.getName().isEmpty()) {
             try {
                 log.info("Login by name");
-
                 var user = userService.loginByName(name, passwd);
-
                 userData.put("id", user.getAccountId() + "");
                 userData.put("email", user.getEmail());
-
                 token = buildToken(userData);
-
             } catch (Exception e) {
                 log.info("user not found!");
                 return ResponseEntity.notFound().build();
@@ -179,14 +162,10 @@ public class AccountController {
         } else if (!userLoginInfo.getEmail().isEmpty()) {
             try {
                 log.info("Login by email");
-
                 var user = userService.loginByEmail(email, passwd);
-
                 userData.put("name", user.getName());
                 userData.put("id", user.getAccountId() + "");
-
                 token = buildToken(userData);
-
             } catch (Exception e) {
                 log.info("user not found!");
                 return ResponseEntity.notFound().build();
@@ -194,19 +173,13 @@ public class AccountController {
         } else {
             return ResponseEntity.badRequest().build();
         }
-
-                var cokie = new Cookie("token", URLEncoder.encode(token, "utf-8"));
-                // cokie.setDomain(domain.replaceAll("http://","").replaceAll(":.*",""));
-                cokie.setMaxAge(60*24*60);
-                cokie.setPath("/");
-                cokie.setSecure(true);
-                cokie.setAttribute("SameSite", "None");
-                
-                
-
-                response.addCookie(cokie);
-
-                return ResponseEntity.ok().body(token);
+        var cokie = new Cookie("token", URLEncoder.encode(token, "utf-8"));
+        cokie.setMaxAge(60 * 24 * 60);
+        cokie.setPath("/");
+        cokie.setSecure(true);
+        cokie.setAttribute("SameSite", "None");
+        response.addCookie(cokie);
+        return ResponseEntity.ok().body(token);
     }
 
 }

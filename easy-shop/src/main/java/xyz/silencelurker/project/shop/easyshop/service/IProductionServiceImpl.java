@@ -29,7 +29,21 @@ public class IProductionServiceImpl implements IProductionService {
 
     @Override
     public void createProduction(Production newProduction) {
-        productionRepository.save(newProduction);
+
+        var production = new Production();
+
+        production.setBrand(newProduction.getBrand());
+        production.setColor(newProduction.getColor());
+        production.setEnable(newProduction.getEnable());
+        production.setId(newProduction.getId());
+        production.setMemoryAndDisk(newProduction.getMemoryAndDisk());
+        production.setName(newProduction.getName());
+        production.setPrice(newProduction.getPrice());
+        production.setSubId(newProduction.getSubId());
+        production.setSystem(newProduction.getSystem());
+        production.setType(newProduction.getType());
+
+        productionRepository.save(production);
     }
 
     @Override
@@ -75,7 +89,7 @@ public class IProductionServiceImpl implements IProductionService {
     @Override
     public Page<Production> getAllProduction(Pageable pageable) {
         log.info(pageable);
-        
+
         return productionRepository.findAll(pageable);
     }
 
@@ -87,6 +101,11 @@ public class IProductionServiceImpl implements IProductionService {
     @Override
     public Page<Production> getAllByExample(Example<Production> example, Pageable pageable) {
         return productionRepository.findAll(example, pageable);
+    }
+
+    @Override
+    public void deleteById(String id) {
+        productionRepository.deleteById(Long.parseLong(id));
     }
 
 }

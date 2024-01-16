@@ -69,4 +69,11 @@ public interface IProductionService {
      */
     boolean changeProductonStatus(long id);
 
+    /**
+     * delete
+     * 
+     * @param id
+     */
+    void deleteById(String id);
+
 }

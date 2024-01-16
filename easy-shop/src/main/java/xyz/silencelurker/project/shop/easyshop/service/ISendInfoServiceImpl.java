@@ -8,13 +8,14 @@ import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;
 import lombok.NonNull;
+import lombok.extern.log4j.Log4j2;
 import xyz.silencelurker.project.shop.easyshop.entity.SendInfo;
 import xyz.silencelurker.project.shop.easyshop.repository.SendInfoRepository;
 
 /**
  * @author Silence_Lurker
  */
-
+@Log4j2
 @Service
 public class ISendInfoServiceImpl implements ISendInfoService {
     @Resource
@@ -27,9 +28,14 @@ public class ISendInfoServiceImpl implements ISendInfoService {
             return false;
         }
 
+        log.info(newInfo);
+
         try {
             sendInfoRepository.save(newInfo);
+
+            log.info("save success");
         } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
         return true;
@@ -40,7 +46,8 @@ public class ISendInfoServiceImpl implements ISendInfoService {
     public List<SendInfo> findAllByUserId(int accountId) {
         var sendInfo = new SendInfo();
         sendInfo.setAccountId(accountId + "");
-        Example<SendInfo> example = Example.of(sendInfo, ExampleMatcher.matching().withIgnoreNullValues());
+        Example<SendInfo> example = Example.of(sendInfo,
+                ExampleMatcher.matching().withIgnoreNullValues().withIgnorePaths("defaultSelected"));
 
         return sendInfoRepository.findAll(example);
     }

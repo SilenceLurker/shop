@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.annotation.Resource;
+import lombok.extern.log4j.Log4j2;
 import xyz.silencelurker.project.shop.easyshop.entity.SendInfo;
 import xyz.silencelurker.project.shop.easyshop.service.ISendInfoService;
 
@@ -24,6 +25,7 @@ import static xyz.silencelurker.project.shop.easyshop.utils.TokenUtil.*;
  */
 
 @Async
+@Log4j2
 @CrossOrigin(originPatterns = "*", allowCredentials = "true")
 @ApiResponses
 @RestController
@@ -33,9 +35,30 @@ public class SendInfoController {
     private ISendInfoService sendInfoService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createSendInfo(@RequestBody SendInfo newInfo,@CookieValue String token) {
+    public ResponseEntity<?> createSendInfo(@RequestBody SendInfo newInfo, @CookieValue String token) {
 
         newInfo.setAccountId(decodeToken(token).get("id"));
+
+        log.info(newInfo);
+
+        var infos = sendInfoService.findAllByUserId(Integer.parseInt(newInfo.getAccountId()));
+
+        var defaultSelect = 0;
+
+        var it = infos.iterator();
+
+        while (it.hasNext()) {
+            var item = it.next();
+
+            if (item.isDefaultSelected()) {
+                defaultSelect++;
+                break;
+            }
+        }
+
+        if (defaultSelect > 0) {
+            newInfo.setDefaultSelected(true);
+        }
 
         sendInfoService.createNewSendInfo(newInfo);
 
@@ -45,6 +68,8 @@ public class SendInfoController {
     @GetMapping("/getInfo")
     public ResponseEntity<?> getInfo(@CookieValue String token) {
         var tokenMap = decodeToken(token);
+
+        log.info(tokenMap);
 
         return ResponseEntity.ok().body(sendInfoService.findAllByUserId(Integer.parseInt(tokenMap.get("id"))));
     }

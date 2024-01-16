@@ -6,13 +6,14 @@ import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;
+import lombok.extern.log4j.Log4j2;
 import xyz.silencelurker.project.shop.easyshop.entity.Color;
 import xyz.silencelurker.project.shop.easyshop.repository.ColorRepository;
 
 /**
  * @author Silence_Lurker
  */
-
+@Log4j2
 @Service
 public class IColorServiceImpl implements IColorService {
     @Resource
@@ -20,6 +21,9 @@ public class IColorServiceImpl implements IColorService {
 
     @Override
     public Color createNewColor(Color newColorInfo) {
+
+        log.info(newColorInfo);
+
         var entity = colorRepository.save(newColorInfo);
 
         return entity;

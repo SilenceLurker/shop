@@ -1,16 +1,11 @@
 package xyz.silencelurker.project.shop.easyshop.entity;
 
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * @author Silence_Lurker
  */
 // @Embeddable
-// @Entity
 public enum Type {
     /**
      * 官方机

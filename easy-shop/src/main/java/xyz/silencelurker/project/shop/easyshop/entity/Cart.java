@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.hibernate.annotations.UuidGenerator;
 
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -22,5 +23,6 @@ public class Cart {
     private String id;
     private Integer userId;
     @ElementCollection
+    @CollectionTable(name = "cart_items_info")
     private Map<Long, Short> items;
 }

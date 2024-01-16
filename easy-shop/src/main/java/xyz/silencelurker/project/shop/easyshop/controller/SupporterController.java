@@ -82,6 +82,8 @@ public class SupporterController {
 
     public static final String SUPPORTER_FILE_LOCATION = "./supporterLogo";
 
+    private static final String HTTP = "http";
+
     @PostMapping("/enable")
     public ResponseEntity<?> enable(@RequestBody TempSupporter tempSupporter,
             @CookieValue(required = false) String token,
@@ -114,7 +116,7 @@ public class SupporterController {
 
         log.info(tempSupporter);
 
-        if (tempSupporter.getLogo().contains("http")) {
+        if (tempSupporter.getLogo().contains(HTTP)) {
             supporter.setLogo(tempSupporter.getLogo());
 
             var tokenInfo = decodeToken(token);
@@ -146,6 +148,7 @@ public class SupporterController {
 
     }
 
+    @Deprecated
     @GetMapping("/logoFile")
     public ResponseEntity<?> getLogoFile(@CookieValue String token, String logo,
             @RequestParam(required = false) Integer accountId) {
@@ -254,6 +257,8 @@ public class SupporterController {
 
         color.setId(((color.getId() << 12) | (subId | (supporter.getBrand().getId() << 17))));
 
+        log.info(color);
+
         var colorInfo = colorService.createNewColor(color.getId(), color.getName(), color.getImage());
 
         return ResponseEntity.ok().body(colorInfo);
@@ -277,6 +282,8 @@ public class SupporterController {
     @PostMapping("/createProduction")
     public ResponseEntity<?> createProduction(@RequestBody TargetProduction production, @CookieValue String token) {
         var supporter = supporterService.supporterLoginIn(token);
+
+        log.info(production);
 
         Brand brand = supporter.getBrand();
         var newPro = new Production();

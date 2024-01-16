@@ -1,6 +1,5 @@
 package xyz.silencelurker.project.shop.easyshop.service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +7,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;
+import lombok.extern.log4j.Log4j2;
 import xyz.silencelurker.project.shop.easyshop.entity.Cart;
 import xyz.silencelurker.project.shop.easyshop.entity.Production;
 import xyz.silencelurker.project.shop.easyshop.repository.CartRepository;
@@ -16,6 +16,7 @@ import xyz.silencelurker.project.shop.easyshop.repository.ProductionRepository;
 /**
  * @author Silence_Lurker
  */
+@Log4j2
 @Service
 public class ICartServiceImpl implements ICartService {
     @Resource
@@ -39,6 +40,8 @@ public class ICartServiceImpl implements ICartService {
         items.put(productionId, (short) (num + count));
         cart.setItems(items);
 
+        log.info(cart);
+
         cartRepository.save(cart);
     }
 
@@ -49,7 +52,7 @@ public class ICartServiceImpl implements ICartService {
             return;
         }
         var items = cart.getItems();
-        items.get(productionId);
+        items.remove(productionId);
         cart.setItems(items);
         cartRepository.save(cart);
     }
@@ -74,7 +77,7 @@ public class ICartServiceImpl implements ICartService {
         var itemsInfo = cart.getItems();
         var itemList = itemsInfo.keySet().iterator();
 
-        var result = new HashMap<Production, Short>();
+        var result = new HashMap<Production, Short>(itemsInfo.size());
 
         while (itemList.hasNext()) {
             var item = itemList.next();

@@ -76,7 +76,7 @@ public class UserController {
         private String code;
         private String newEmail;
 
-        public EmailUpdateInfo(){
+        public EmailUpdateInfo() {
             super();
         }
     }
@@ -97,6 +97,12 @@ public class UserController {
 
         return ResponseEntity.badRequest().body("Check Code not match! Please Check Out!");
 
+    }
+
+    @GetMapping("/info")
+    public ResponseEntity<?> getInfo(@CookieValue String token) {
+
+        return ResponseEntity.ok().body(userService.getUserInfo(Integer.parseInt(decodeToken(token).get("id"))));
     }
 
 }

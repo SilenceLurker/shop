@@ -50,7 +50,17 @@ public class ProductionController {
     public ResponseEntity<?> getAllProduction(@RequestParam(required = false, defaultValue = "-1") Integer page,
             @RequestParam(required = false, defaultValue = "-1") Integer size) {
         if (size < 0) {
-            return ResponseEntity.ok().body(productionService.getAllProduction());
+            var production = new Production();
+            production.setEnable(true);
+
+            var example = Example.of(production,
+                    ExampleMatcher.matching()
+                            .withIgnorePaths("id", "price", "enable", "subId", "time", "system", "type")
+                            .withIgnoreNullValues());
+
+            var items = productionService.getAllByExample(example);
+
+            return ResponseEntity.ok().body(items);
         }
         Pageable pageable = Pageable.ofSize(size).withPage(page);
 
@@ -68,37 +78,39 @@ public class ProductionController {
             @RequestParam(required = false, defaultValue = "") Short type,
             @RequestParam(required = false, defaultValue = "") String system) {
 
-                log.info(name + " " + brand + " " + type + " " + system + "-----------------------------------------------");
+        log.info(name + " " + brand + " " + type + " " + system + "-----------------------------------------------");
 
         var macher = ExampleMatcher.matching();
 
         Brand brandEntity = null;
         Type typeEntity = null;
 
-        if(!brand.isEmpty()){
+        if (!brand.isEmpty()) {
             brandEntity = brandService.getBrandByName(brand);
             log.info(brandEntity);
             macher.withMatcher("brand", GenericPropertyMatchers.caseSensitive());
         }
-        if(type != null){
+        if (type != null) {
             typeEntity = Type.getTypeByCode(type);
             log.info(typeEntity);
             macher.withMatcher("type", GenericPropertyMatchers.regex());
         }
-        
+
         var temp = new SystemType();
         temp.setType(system);
         SystemType systemEntity = null;
 
-                if(!system.isEmpty()){
-                    systemEntity =  systemTypeService.getSystemType(Example.of(temp, ExampleMatcher.matching().withIgnoreNullValues().withMatcher("type", GenericPropertyMatchers.contains()).withIgnorePaths("id")));
-                    log.info(systemEntity);
-                    macher.withMatcher("system", GenericPropertyMatchers.caseSensitive());
-                }
+        if (!system.isEmpty()) {
+            systemEntity = systemTypeService
+                    .getSystemType(Example.of(temp, ExampleMatcher.matching().withIgnoreNullValues()
+                            .withMatcher("type", GenericPropertyMatchers.contains()).withIgnorePaths("id")));
+            log.info(systemEntity);
+            macher.withMatcher("system", GenericPropertyMatchers.caseSensitive());
+        }
 
         var production = new Production();
 
-        if(!name.isEmpty()){
+        if (!name.isEmpty()) {
             production.setName(name);
             macher.withMatcher("name", GenericPropertyMatchers.contains());
         }
@@ -107,7 +119,7 @@ public class ProductionController {
         production.setType(typeEntity == null ? null : typeEntity);
         production.setSystem(systemEntity == null ? null : systemEntity);
 
-        macher = macher.withIgnorePaths("enable","subId","price","time","id");
+        macher = macher.withIgnorePaths("enable", "subId", "price", "time", "id");
 
         Example<Production> example = Example.of(production, macher.withIgnoreNullValues());
 
@@ -116,7 +128,7 @@ public class ProductionController {
         var result = productionService.getAllByExample(example);
         log.info(result);
 
-        if(name.isEmpty() & system.isEmpty() & type == null & brand.isEmpty()){
+        if (name.isEmpty() & system.isEmpty() & type == null & brand.isEmpty()) {
             log.info("ALL");
             result = productionService.getAllProduction();
         }
@@ -136,11 +148,19 @@ public class ProductionController {
 
         log.info(production);
 
-        Example<Production> example = Example.of(production, ExampleMatcher.matching().withIgnorePaths("id","time","enable","price").withIgnoreNullValues());
+        Example<Production> example = Example.of(production,
+                ExampleMatcher.matching().withIgnorePaths("id", "time", "enable", "price").withIgnoreNullValues());
 
         log.info(example);
 
         return ResponseEntity.ok().body(productionService.getAllByExample(example));
+    }
+
+    @PostMapping("/delete")
+    public ResponseEntity<?> deleteById(String id) {
+        productionService.deleteById(id);
+
+        return ResponseEntity.ok().build();
     }
 
 }

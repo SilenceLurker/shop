@@ -1,5 +1,6 @@
 package xyz.silencelurker.project.shop.easyshop.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.data.domain.Example;
@@ -25,8 +26,22 @@ public class IOrderInfoServiceImpl implements IOrderInfoService {
     public OrderInfo createOrderInfo(Cart cart) {
         var order = new OrderInfo();
 
-        order.setItems(cart.getItems());
+        var items = cart.getItems().entrySet();
+
+        var oItems = new HashMap<Long, Short>(items.size());
+
+        var it = items.iterator();
+
+        while (it.hasNext()) {
+            var item = it.next();
+
+            oItems.put(item.getKey(), item.getValue());
+        }
+
+        order.setItems(oItems);
         order.setAccountId(cart.getUserId());
+
+        log.info(order);
 
         return order;
     }
@@ -49,7 +64,7 @@ public class IOrderInfoServiceImpl implements IOrderInfoService {
     @Override
     public void save(OrderInfo newInfo) {
         log.info(newInfo);
-       orderiInfoRepository.save(newInfo);
+        orderiInfoRepository.save(newInfo);
     }
 
 }

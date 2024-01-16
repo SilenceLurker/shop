@@ -4,6 +4,8 @@ import lombok.extern.log4j.Log4j2;
 
 import static xyz.silencelurker.project.shop.easyshop.utils.TokenUtil.*;
 
+import java.util.HashMap;
+
 import org.junit.jupiter.api.Test;
 
 @Log4j2
@@ -14,6 +16,12 @@ public class UtilApplicationTest {
     @Test
     void test() {
         log.info(decodeToken(token));
+
+        var map = new HashMap<String, String>();
+
+        map.put("id", "8");
+
+        log.info(buildToken(map));
     }
 
 }
