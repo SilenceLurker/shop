@@ -35,8 +35,8 @@ public class ICartServiceImpl implements ICartService {
         }
 
         var items = cart.getItems();
-        short num = items.get(productionId) == null ? 0 : items.get(productionId);
-        items.put(productionId, (short) (num + count));
+        short num = items.getItems().get(productionId) == null ? 0 : items.getItems().get(productionId);
+        items.getItems().put(productionId, (short) (num + count));
         cart.setItems(items);
 
         cartRepository.save(cart);
@@ -49,7 +49,7 @@ public class ICartServiceImpl implements ICartService {
             return;
         }
         var items = cart.getItems();
-        items.remove(productionId);
+        items.getItems().get(productionId);
         cart.setItems(items);
         cartRepository.save(cart);
     }
@@ -72,14 +72,14 @@ public class ICartServiceImpl implements ICartService {
         var cart = findById(cartId);
 
         var itemsInfo = cart.getItems();
-        var itemList = itemsInfo.keySet().iterator();
+        var itemList = itemsInfo.getItems().keySet().iterator();
 
         var result = new HashMap<Production, Short>();
 
         while (itemList.hasNext()) {
             var item = itemList.next();
 
-            result.put(productionRepository.findById(item).get(), itemsInfo.get(item));
+            result.put(productionRepository.findById(item).get(), itemsInfo.getItems().get(item));
         }
 
         return result;

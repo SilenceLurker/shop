@@ -3,6 +3,9 @@ package xyz.silencelurker.project.shop.cartservice;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * @author Silence_Lurker
+ */
 @SpringBootApplication
 public class CartServiceApplication {
 

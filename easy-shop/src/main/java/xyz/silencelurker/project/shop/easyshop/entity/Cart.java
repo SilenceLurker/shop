@@ -21,6 +21,5 @@ public class Cart {
     @UuidGenerator
     private String id;
     private Integer userId;
-    @ElementCollection
-    private Map<Long, Short> items;
+    private SavedItems items;
 }
