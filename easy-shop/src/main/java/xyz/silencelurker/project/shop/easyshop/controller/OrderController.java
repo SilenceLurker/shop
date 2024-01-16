@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -31,7 +32,8 @@ public class OrderController {
     private IOrderInfoService orderInfoService;
 
     @PostMapping("/createOrder")
-    public ResponseEntity<?> createOrder(String cartId, String sendInfoId, @CookieValue String token) {
+    public ResponseEntity<?> createOrder(@RequestParam String cartId,@RequestParam String sendInfoId, @CookieValue String token) {
+
         var cart = cartService.findById(cartId);
 
         var orderInfo = orderInfoService.createOrderInfo(cart);
@@ -41,6 +43,8 @@ public class OrderController {
         var userInfo = decodeToken(token);
 
         orderInfo.setAccountId(Integer.parseInt(userInfo.get("id")));
+
+        orderInfoService.save(orderInfo);
 
         cartService.deleteCart(cartId);
 

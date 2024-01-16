@@ -7,6 +7,7 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;
+import lombok.extern.log4j.Log4j2;
 import xyz.silencelurker.project.shop.easyshop.entity.Cart;
 import xyz.silencelurker.project.shop.easyshop.entity.OrderInfo;
 import xyz.silencelurker.project.shop.easyshop.repository.OrderInfoRepository;
@@ -14,6 +15,7 @@ import xyz.silencelurker.project.shop.easyshop.repository.OrderInfoRepository;
 /**
  * @author Silence_Lurker
  */
+@Log4j2
 @Service
 public class IOrderInfoServiceImpl implements IOrderInfoService {
     @Resource
@@ -42,6 +44,12 @@ public class IOrderInfoServiceImpl implements IOrderInfoService {
         var example = Example.of(order, ExampleMatcher.matching().withIgnorePaths("id", "items", "sendInfoId"));
 
         return orderiInfoRepository.findAll(example);
+    }
+
+    @Override
+    public void save(OrderInfo newInfo) {
+        log.info(newInfo);
+       orderiInfoRepository.save(newInfo);
     }
 
 }

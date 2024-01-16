@@ -32,4 +32,11 @@ public interface IOrderInfoService {
      * @return
      */
     List<OrderInfo> getAllOrderInfoByAccountId(int accountId);
+
+    /**
+     * save
+     * 
+     * @param newInfo
+     */
+    void save(OrderInfo newInfo);
 }

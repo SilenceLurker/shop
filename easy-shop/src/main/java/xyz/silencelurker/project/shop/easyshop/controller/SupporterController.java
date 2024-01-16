@@ -104,7 +104,6 @@ public class SupporterController {
 
         brandService.save(brand);
 
-        supporter.setAccountId(accountId);
         supporter.setPassword(tempSupporter.getPassword());
         supporter.setName(tempSupporter.getPassword());
         supporter.setInfo(tempSupporter.getInfo());
@@ -136,22 +135,6 @@ public class SupporterController {
 
             return ResponseEntity.ok().build();
         }
-
-        // var file = new File(SUPPORTER_FILE_LOCATION,accountId +
-        // logoFile.getOriginalFilename());
-        // tempSupporter.setLogo(accountId + logoFile.getOriginalFilename());
-
-        // if(!file.exists()){
-        // file.createNewFile();
-        // }
-
-        // FileOutputStream fos = new FileOutputStream(file);
-
-        // fos.write(logoFile.getBytes());
-
-        // fos.close();;
-
-        // supporter.setLogo(accountId + logoFile.getOriginalFilename());
 
         var tokenInfo = decodeToken(token);
         tokenInfo.put("enableSupporter", "true");

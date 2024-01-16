@@ -33,6 +33,8 @@ public class ISupporterServiceImpl implements ISupporterService {
             return;
         }
 
+        log.info(supporter);
+
         supporterRepository.save(supporter);
     }
 

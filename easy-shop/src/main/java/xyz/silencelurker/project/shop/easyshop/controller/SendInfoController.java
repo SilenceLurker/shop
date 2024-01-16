@@ -33,7 +33,9 @@ public class SendInfoController {
     private ISendInfoService sendInfoService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createSendInfo(@RequestBody SendInfo newInfo) {
+    public ResponseEntity<?> createSendInfo(@RequestBody SendInfo newInfo,@CookieValue String token) {
+
+        newInfo.setAccountId(decodeToken(token).get("id"));
 
         sendInfoService.createNewSendInfo(newInfo);
 
