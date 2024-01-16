@@ -27,6 +27,7 @@ import xyz.silencelurker.project.shop.easyshop.utils.ProductionUtil;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -241,8 +242,6 @@ public class SupporterController {
     @GetMapping("/initSubId")
     public ResponseEntity<?> getSubId(@CookieValue String token) {
 
-
-
         var supporter = supporterService.supporterLoginIn(token);
         log.info(supporter);
         Brand brand = supporter.getBrand();
@@ -251,7 +250,12 @@ public class SupporterController {
         log.info(newPro);
         newPro.setBrand(brand);
         var subId = productionService
-                .getAllByExample(Example.of(newPro, ExampleMatcher.matching().withIgnoreNullValues())).size();
+                .getAllByExample(
+                        Example.of(newPro,
+                                ExampleMatcher.matching().withIgnoreNullValues().withIgnorePaths("id", "name", "color",
+                                        "system", "type", "memoryAndDisk", "enable", "price", "time")
+                                        .withMatcher("brand", GenericPropertyMatchers.contains())))
+                .size();
 
         newPro.setSubId((short) subId);
         productionService.createProduction(newPro);
@@ -260,7 +264,8 @@ public class SupporterController {
     }
 
     @PostMapping("/addNewColor")
-    public ResponseEntity<?> addNewColorWithProduction(@RequestParam int subId, @RequestBody Color color, @CookieValue String token) {
+    public ResponseEntity<?> addNewColorWithProduction(@RequestParam int subId, @RequestBody Color color,
+            @CookieValue String token) {
 
         var supporter = supporterService.supporterLoginIn(token);
 
@@ -311,7 +316,6 @@ public class SupporterController {
         newPro.setMemoryAndDisk(mem);
         newPro.setName(production.name);
         var type = Type.getTypeByCode((short) production.type);
-
 
         log.info(type);
         newPro.setType(type);

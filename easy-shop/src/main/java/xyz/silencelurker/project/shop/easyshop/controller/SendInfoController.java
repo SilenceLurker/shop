@@ -41,16 +41,10 @@ public class SendInfoController {
     }
 
     @GetMapping("/getInfo")
-    public ResponseEntity<?> getInfo(@RequestBody SendInfo info, @CookieValue String token) {
+    public ResponseEntity<?> getInfo(@CookieValue String token) {
         var tokenMap = decodeToken(token);
 
-        var targetId = tokenMap.get("id");
-
-        if (targetId.equals(info.getAccountId())) {
-            return ResponseEntity.ok().body(sendInfoService.findAllByUserId(Integer.parseInt(targetId)));
-        }
-
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.ok().body(sendInfoService.findAllByUserId(Integer.parseInt(tokenMap.get("id"))));
     }
 
     @DeleteMapping("/delete")

@@ -59,6 +59,13 @@ public interface ICartService {
      * @param cartId
      * @return
      */
-    Map<Production,Short> getProductionByCartId(String cartId);
+    Map<Production, Short> getProductionByCartId(String cartId);
+
+    /**
+     * delete
+     * 
+     * @param cartId
+     */
+    void deleteCart(String cartId);
 
 }
