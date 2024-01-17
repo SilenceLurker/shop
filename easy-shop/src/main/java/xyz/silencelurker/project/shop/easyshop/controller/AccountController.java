@@ -112,6 +112,10 @@ public class AccountController {
     public ResponseEntity<?> confirm(@RequestParam(required = true, defaultValue = "") String id,
             @RequestParam String passwd) {
 
+                if(id == null){
+                    return null;
+                }
+
         var checkCode = template.opsForValue().get(id);
 
         if (passwd.equalsIgnoreCase(checkCode)) {

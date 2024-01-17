@@ -1,7 +1,5 @@
 package xyz.silencelurker.project.shop.easyshop.service;
 
-import org.springframework.data.domain.Example;
-
 import jakarta.annotation.Nullable;
 import xyz.silencelurker.project.shop.easyshop.entity.BaseAccountLoginInfo;
 

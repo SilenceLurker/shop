@@ -39,6 +39,9 @@ public class IBrandServiceImpl implements IBrandService {
 
     @Override
     public void save(Brand brand) {
+        if( brand == null){
+            return;
+        }
         brandRepository.save(brand);
     }
 

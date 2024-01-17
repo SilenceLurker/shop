@@ -98,8 +98,11 @@ public class SupporterController {
         }
 
         var supporter = new Supporter();
-        var accountId = Integer.parseInt(decodeToken(token).get("id"));
+        var accountId = tempSupporter.getAccountId();
         var brand = new Brand();
+
+        log.info(decodeToken(token));
+        log.info(tempSupporter);
 
         brand.setId(accountId);
         brand.setName(tempSupporter.getName());

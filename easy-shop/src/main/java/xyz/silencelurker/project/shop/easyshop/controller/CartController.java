@@ -102,6 +102,7 @@ public class CartController {
 
     @GetMapping("/cartItemList")
     public ResponseEntity<?> getCartItemList(@RequestParam String cartId) {
+        log.info("000" + cartId + "000");
         var items =  cartService.getProductionByCartId(cartId);
 
         var it = items.entrySet().iterator();

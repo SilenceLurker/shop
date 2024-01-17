@@ -5,7 +5,6 @@ import jakarta.persistence.Id;
 /**
  * @author Silence_Lurker
  */
-// @Embeddable
 public enum Type {
     /**
      * 官方机
